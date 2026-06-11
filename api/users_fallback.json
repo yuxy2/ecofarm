@@ -1,8 +1,8 @@
 [
   {
     "username": "admin",
-    "password_hash": "3ec426e5b61d8d57dd4231f7872b0de03766f8dd01743666f96597301ed6d151",
-    "salt": "58cc503e74b69f0b3a0c29cb3893359f",
+    "password_hash": "5a42632d6860b421b145e3e79394b3a787ca83cdde2d06d89c4d0ac6473f91a6",
+    "salt": "21803f521d278b405d8c1ab34377b54f",
     "role": "admin",
     "created_at": "2026-06-11T06:44:06.329507Z"
   },
