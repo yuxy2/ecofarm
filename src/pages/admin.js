@@ -321,7 +321,7 @@ export default function AdminDashboard() {
       </Head>
 
       {/* Main Sidebar Layout Container */}
-      <div style={{
+      <div className="admin-dashboard-root" style={{
         display: "flex",
         minHeight: "100vh",
         background: "hsl(var(--bg-color))",
@@ -331,6 +331,11 @@ export default function AdminDashboard() {
         
         {/* Mobile Responsive Style Injections */}
         <style>{`
+          @media (min-width: 1200px) {
+            .admin-dashboard-root {
+              zoom: 85% !important;
+            }
+          }
           @media (max-width: 992px) {
             .admin-sidebar {
               position: fixed !important;
@@ -369,6 +374,41 @@ export default function AdminDashboard() {
           @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+          }
+          
+          /* Custom Grid styles to prevent wrapping on 100% zoom and large screens */
+          .stats-grid-5 {
+            display: grid !important;
+            grid-template-columns: repeat(5, 1fr) !important;
+            gap: 1rem !important;
+            margin-bottom: 2.5rem !important;
+          }
+          .stats-grid-4 {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 1rem !important;
+            margin-bottom: 2.5rem !important;
+          }
+          @media (max-width: 1200px) {
+            .stats-grid-5 {
+              grid-template-columns: repeat(3, 1fr) !important;
+            }
+            .stats-grid-4 {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+          @media (max-width: 768px) {
+            .stats-grid-5 {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .stats-grid-4 {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+          @media (max-width: 480px) {
+            .stats-grid-5, .stats-grid-4 {
+              grid-template-columns: 1fr !important;
+            }
           }
         `}</style>
 
@@ -784,16 +824,11 @@ export default function AdminDashboard() {
         {activeTab === "dataset" && dataset && (
           <div>
             {/* Stats Cards Grid */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-              gap: "1.5rem",
-              marginBottom: "2.5rem"
-            }}>
+            <div className="stats-grid-5">
               {/* Card 1: Total Data */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -805,7 +840,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid hsl(var(--primary))",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -816,23 +851,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Total Data Latih
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--primary))", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--primary))", fontFamily: "var(--font-display)" }}>
                     {dataset.length}
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "hsla(165, 100%, 14%, 0.08)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "hsl(var(--primary))",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   📊
                 </div>
@@ -841,7 +876,7 @@ export default function AdminDashboard() {
               {/* Card 2: Padi (K1) */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -853,7 +888,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid hsl(var(--secondary))",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -864,23 +899,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Padi (K1)
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--secondary))", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--secondary))", fontFamily: "var(--font-display)" }}>
                     {dataset.filter(row => row.label === "Padi").length}
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "rgba(35, 78, 64, 0.08)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "hsl(var(--secondary))",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   🌾
                 </div>
@@ -889,7 +924,7 @@ export default function AdminDashboard() {
               {/* Card 3: Jagung (K2) */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -901,7 +936,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid hsl(var(--accent))",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -912,23 +947,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Jagung (K2)
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--accent))", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--accent))", fontFamily: "var(--font-display)" }}>
                     {dataset.filter(row => row.label === "Jagung").length}
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "hsla(42, 75%, 57%, 0.12)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "hsl(var(--accent))",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   🌽
                 </div>
@@ -937,7 +972,7 @@ export default function AdminDashboard() {
               {/* Card 4: Kopi (K3) */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -949,7 +984,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid hsl(var(--danger))",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -960,23 +995,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Kopi (K3)
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--danger))", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--danger))", fontFamily: "var(--font-display)" }}>
                     {dataset.filter(row => row.label === "Kopi").length}
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "hsla(350, 80%, 48%, 0.08)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "hsl(var(--danger))",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   ☕
                 </div>
@@ -985,7 +1020,7 @@ export default function AdminDashboard() {
               {/* Card 5: Data Baru (Runtime) */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -997,7 +1032,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid #00acc1",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -1008,23 +1043,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Data Baru (Runtime)
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "#00acc1", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "#00acc1", fontFamily: "var(--font-display)" }}>
                     {stats ? stats.total_predictions : 0}
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "rgba(0, 172, 193, 0.08)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "#00acc1",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   ✨
                 </div>
@@ -1092,16 +1127,16 @@ export default function AdminDashboard() {
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.95rem" }}>
                   <thead>
                     <tr style={{ background: "hsl(var(--primary))", borderBottom: "2px solid hsl(var(--card-border))" }}>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "70px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>No</th>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V1 (N)</th>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V2 (P)</th>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V3 (K)</th>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V4 (Suhu)</th>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V5 (Kelembaban)</th>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V6 (pH)</th>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V7 (Curah Hujan)</th>
-                      <th style={{ padding: "1.2rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V8 (Irigasi)</th>
-                      <th style={{ padding: "1.2rem 1.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "120px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Label</th>
+                      <th style={{ padding: "0.8rem 0.75rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "70px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>No</th>
+                      <th style={{ padding: "0.8rem 0.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V1 (N)</th>
+                      <th style={{ padding: "0.8rem 0.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V2 (P)</th>
+                      <th style={{ padding: "0.8rem 0.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V3 (K)</th>
+                      <th style={{ padding: "0.8rem 0.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V4 (Suhu)</th>
+                      <th style={{ padding: "0.8rem 0.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V5 (Kelembaban)</th>
+                      <th style={{ padding: "0.8rem 0.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V6 (pH)</th>
+                      <th style={{ padding: "0.8rem 0.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V7 (Curah Hujan)</th>
+                      <th style={{ padding: "0.8rem 0.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>V8 (Irigasi)</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "120px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Label</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1128,11 +1163,11 @@ export default function AdminDashboard() {
                           labelColor = "hsl(25, 40%, 25%)";
                           labelBorder = "1px solid hsla(25, 40%, 35%, 0.2)";
                         }
-
+ 
                         const isNewData = globalIndex > 45;
                         const rowBg = isNewData ? "hsla(42, 75%, 57%, 0.07)" : "transparent";
                         const rowHoverBg = isNewData ? "hsla(42, 75%, 57%, 0.12)" : "hsla(165, 100%, 14%, 0.02)";
-
+ 
                         return (
                           <tr 
                             key={idx} 
@@ -1140,7 +1175,7 @@ export default function AdminDashboard() {
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = rowHoverBg}
                             onMouseOut={(e) => e.currentTarget.style.backgroundColor = rowBg}
                           >
-                            <td style={{ padding: "1rem 1.25rem", color: isNewData ? "hsl(var(--accent))" : "hsl(var(--text-muted))", textAlign: "center", fontWeight: "600" }}>
+                            <td style={{ padding: "0.6rem 0.75rem", color: isNewData ? "hsl(var(--accent))" : "hsl(var(--text-muted))", textAlign: "center", fontWeight: "600" }}>
                               {globalIndex}
                               {isNewData && (
                                 <span style={{ 
@@ -1158,18 +1193,18 @@ export default function AdminDashboard() {
                                 </span>
                               )}
                             </td>
-                            <td style={{ padding: "1rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.N}</td>
-                            <td style={{ padding: "1rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.P}</td>
-                            <td style={{ padding: "1rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.K}</td>
-                            <td style={{ padding: "1rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.temperature}</td>
-                            <td style={{ padding: "1rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.humidity}</td>
-                            <td style={{ padding: "1rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.ph}</td>
-                            <td style={{ padding: "1rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.rainfall}</td>
-                            <td style={{ padding: "1rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.irigasi}</td>
-                            <td style={{ padding: "1rem 1.5rem", textAlign: "center" }}>
+                            <td style={{ padding: "0.6rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.N}</td>
+                            <td style={{ padding: "0.6rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.P}</td>
+                            <td style={{ padding: "0.6rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.K}</td>
+                            <td style={{ padding: "0.6rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.temperature}</td>
+                            <td style={{ padding: "0.6rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.humidity}</td>
+                            <td style={{ padding: "0.6rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.ph}</td>
+                            <td style={{ padding: "0.6rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.rainfall}</td>
+                            <td style={{ padding: "0.6rem", textAlign: "center", color: "hsl(var(--text-main))", fontWeight: "500" }}>{row.irigasi}</td>
+                            <td style={{ padding: "0.6rem 1rem", textAlign: "center" }}>
                               <span style={{
                                 display: "inline-block",
-                                padding: "0.35rem 0.75rem",
+                                padding: "0.25rem 0.5rem",
                                 borderRadius: "8px",
                                 fontSize: "0.85rem",
                                 fontWeight: "800",
@@ -1277,16 +1312,11 @@ export default function AdminDashboard() {
         {activeTab === "pemakai" && (
           <div>
             {/* Stats Cards Grid */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-              gap: "1.5rem",
-              marginBottom: "2.5rem"
-            }}>
+            <div className="stats-grid-4">
               {/* Card 1: Total Pemakai */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -1298,7 +1328,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid hsl(var(--primary))",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -1309,23 +1339,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Total Pemakai
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--primary))", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--primary))", fontFamily: "var(--font-display)" }}>
                     {users.length}
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "hsla(165, 100%, 14%, 0.08)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "hsl(var(--primary))",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   👥
                 </div>
@@ -1334,7 +1364,7 @@ export default function AdminDashboard() {
               {/* Card 2: Petani / User */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -1346,7 +1376,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid hsl(var(--secondary))",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -1357,23 +1387,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Petani / User
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--secondary))", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--secondary))", fontFamily: "var(--font-display)" }}>
                     {users.filter(u => u.role === "user").length}
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "rgba(35, 78, 64, 0.08)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "hsl(var(--secondary))",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   🚜
                 </div>
@@ -1382,7 +1412,7 @@ export default function AdminDashboard() {
               {/* Card 3: Administrator */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -1394,7 +1424,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid hsl(var(--accent))",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -1405,23 +1435,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Administrator
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--accent))", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "hsl(var(--accent))", fontFamily: "var(--font-display)" }}>
                     {users.filter(u => u.role === "admin").length}
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "hsla(42, 75%, 57%, 0.12)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "hsl(var(--accent))",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   🛡️
                 </div>
@@ -1430,7 +1460,7 @@ export default function AdminDashboard() {
               {/* Card 4: Sesi Aktif (Runtime) */}
               <div 
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "var(--shadow-md)";
                 }}
                 onMouseLeave={(e) => {
@@ -1442,7 +1472,7 @@ export default function AdminDashboard() {
                   border: "1px solid hsl(var(--card-border))",
                   borderLeft: "5px solid #00acc1",
                   borderRadius: "16px",
-                  padding: "1.5rem 1.75rem",
+                  padding: "1rem 1.25rem",
                   textAlign: "left",
                   boxShadow: "var(--shadow-sm)",
                   display: "flex",
@@ -1453,23 +1483,23 @@ export default function AdminDashboard() {
                 }}
               >
                 <div>
-                  <span style={{ fontSize: "0.75rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: "800", color: "hsl(var(--text-muted))", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     Sesi Aktif (Runtime)
                   </span>
-                  <span style={{ display: "block", fontSize: "2.25rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "#00acc1", fontFamily: "var(--font-display)" }}>
+                  <span style={{ display: "block", fontSize: "1.75rem", fontWeight: "800", lineHeight: "1.1", marginTop: "0.35rem", color: "#00acc1", fontFamily: "var(--font-display)" }}>
                     1
                   </span>
                 </div>
                 <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
                   background: "rgba(0, 172, 193, 0.08)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: "#00acc1",
-                  fontSize: "1.5rem"
+                  fontSize: "1.25rem"
                 }}>
                   🟢
                 </div>
@@ -1500,10 +1530,10 @@ export default function AdminDashboard() {
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.95rem" }}>
                   <thead>
                     <tr style={{ background: "hsl(var(--primary))", borderBottom: "2px solid hsl(var(--card-border))" }}>
-                      <th style={{ padding: "1.2rem 1.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "70px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>No</th>
-                      <th style={{ padding: "1.2rem 1.5rem", color: "#ffffff", fontWeight: "700", textAlign: "left", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Nama Pengguna</th>
-                      <th style={{ padding: "1.2rem 1.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "220px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Peran (Role)</th>
-                      <th style={{ padding: "1.2rem 1.5rem", color: "#ffffff", fontWeight: "700", textAlign: "left", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Tanggal Bergabung</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "70px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>No</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "left", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Nama Pengguna</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "220px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Peran (Role)</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "left", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Tanggal Bergabung</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1534,14 +1564,14 @@ export default function AdminDashboard() {
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = "hsla(165, 100%, 14%, 0.02)"}
                             onMouseOut={(e) => e.currentTarget.style.backgroundColor = "transparent"}
                           >
-                            <td style={{ padding: "1.1rem 1.5rem", color: "hsl(var(--text-muted))", textAlign: "center", fontWeight: "600" }}>{idx + 1}</td>
-                            <td style={{ padding: "1.1rem 1.5rem", fontWeight: "700", color: "hsl(var(--text-dark))" }}>
+                            <td style={{ padding: "0.75rem 1rem", color: "hsl(var(--text-muted))", textAlign: "center", fontWeight: "600" }}>{idx + 1}</td>
+                            <td style={{ padding: "0.75rem 1rem", fontWeight: "700", color: "hsl(var(--text-dark))" }}>
                               👤 {user.username}
                             </td>
-                            <td style={{ padding: "1.1rem 1.5rem", textAlign: "center" }}>
+                            <td style={{ padding: "0.75rem 1rem", textAlign: "center" }}>
                               <span style={{
                                 display: "inline-block",
-                                padding: "0.35rem 0.75rem",
+                                padding: "0.25rem 0.5rem",
                                 borderRadius: "8px",
                                 fontSize: "0.8rem",
                                 fontWeight: "800",
@@ -1555,7 +1585,7 @@ export default function AdminDashboard() {
                                 {roleText}
                               </span>
                             </td>
-                            <td style={{ padding: "1.1rem 1.5rem", color: "hsl(var(--text-muted))", fontWeight: "500" }}>
+                            <td style={{ padding: "0.75rem 1rem", color: "hsl(var(--text-muted))", fontWeight: "500" }}>
                               {formatDate(user.created_at)}
                             </td>
                           </tr>
@@ -1595,14 +1625,14 @@ export default function AdminDashboard() {
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.95rem" }}>
                   <thead>
                     <tr style={{ background: "hsl(var(--primary))", borderBottom: "2px solid hsl(var(--card-border))" }}>
-                      <th style={{ padding: "1.2rem 1.25rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "70px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>No.</th>
-                      <th style={{ padding: "1.2rem 1.25rem", color: "#ffffff", fontWeight: "700", textAlign: "left", width: "130px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Waktu</th>
-                      <th style={{ padding: "1.2rem 1.25rem", color: "#ffffff", fontWeight: "700", textAlign: "left", width: "130px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>User ID</th>
-                      <th style={{ padding: "1.2rem 1.25rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "120px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Hara (N, P, K)</th>
-                      <th style={{ padding: "1.2rem 1.25rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "180px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Iklim (pH, T, H, R, I)</th>
-                      <th style={{ padding: "1.2rem 1.25rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "150px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Perhitungan</th>
-                      <th style={{ padding: "1.2rem 1.5rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "130px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Keputusan</th>
-                      <th style={{ padding: "1.2rem 1.25rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "120px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Aksi</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "70px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>No.</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "left", width: "130px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Waktu</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "left", width: "130px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>User ID</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "120px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Hara (N, P, K)</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "180px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Iklim (pH, T, H, R, I)</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "150px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Perhitungan</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "130px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Keputusan</th>
+                      <th style={{ padding: "0.8rem 1rem", color: "#ffffff", fontWeight: "700", textAlign: "center", width: "120px", fontFamily: "var(--font-display)", letterSpacing: "0.02em" }}>Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1646,22 +1676,22 @@ export default function AdminDashboard() {
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = "hsla(165, 100%, 14%, 0.02)"}
                             onMouseOut={(e) => e.currentTarget.style.backgroundColor = "transparent"}
                           >
-                            <td style={{ padding: "1.1rem 1.25rem", color: "hsl(var(--text-muted))", textAlign: "center", fontWeight: "600" }}>{idx + 1}</td>
-                            <td style={{ padding: "1.1rem 1.25rem", color: "hsl(var(--text-main))", fontWeight: "500" }}>{formatShortDate(item.timestamp)}</td>
-                            <td style={{ padding: "1.1rem 1.25rem", fontWeight: "700", color: "hsl(var(--text-dark))" }}>
+                            <td style={{ padding: "0.75rem 1rem", color: "hsl(var(--text-muted))", textAlign: "center", fontWeight: "600" }}>{idx + 1}</td>
+                            <td style={{ padding: "0.75rem 1rem", color: "hsl(var(--text-main))", fontWeight: "500" }}>{formatShortDate(item.timestamp)}</td>
+                            <td style={{ padding: "0.75rem 1rem", fontWeight: "700", color: "hsl(var(--text-dark))" }}>
                               👤 {item.user || "anonim"}
                             </td>
-                            <td style={{ padding: "1.1rem 1.25rem", color: "hsl(var(--text-dark))", textAlign: "center", fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "600" }}>
+                            <td style={{ padding: "0.75rem 1rem", color: "hsl(var(--text-dark))", textAlign: "center", fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "600" }}>
                               {nVal}, {pVal}, {kVal}
                             </td>
-                            <td style={{ padding: "1.1rem 1.25rem", color: "hsl(var(--text-dark))", textAlign: "center", fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "600" }}>
+                            <td style={{ padding: "0.75rem 1rem", color: "hsl(var(--text-dark))", textAlign: "center", fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "600" }}>
                               {phVal}, {tempVal}, {humidVal}, {rainVal}, {irigasiVal}
                             </td>
-                            <td style={{ padding: "1.1rem 1.25rem", textAlign: "center" }}>
+                            <td style={{ padding: "0.75rem 1rem", textAlign: "center" }}>
                               <button
                                 onClick={() => handleOpenCalculation(item)}
                                 style={{
-                                  padding: "0.45rem 1.1rem",
+                                  padding: "0.35rem 0.85rem",
                                   borderRadius: "20px",
                                   border: "1px solid hsla(165, 100%, 14%, 0.15)",
                                   background: "hsla(165, 100%, 14%, 0.06)",
@@ -1684,10 +1714,10 @@ export default function AdminDashboard() {
                                 LIHAT DETAIL
                               </button>
                             </td>
-                            <td style={{ padding: "1.1rem 1.5rem", textAlign: "center" }}>
+                            <td style={{ padding: "0.75rem 1rem", textAlign: "center" }}>
                               <span style={{
                                 display: "inline-block",
-                                padding: "0.35rem 0.75rem",
+                                padding: "0.25rem 0.5rem",
                                 borderRadius: "8px",
                                 fontSize: "0.85rem",
                                 fontWeight: "800",
@@ -1701,7 +1731,7 @@ export default function AdminDashboard() {
                                 {prediction}
                               </span>
                             </td>
-                            <td style={{ padding: "1.1rem 1.25rem", textAlign: "center" }}>
+                            <td style={{ padding: "0.75rem 1rem", textAlign: "center" }}>
                                <button
                                  onClick={() => handleAddToTraining(item)}
                                  title="Simpan sebagai Data Latih & Latih Ulang"
