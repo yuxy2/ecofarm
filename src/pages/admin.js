@@ -336,6 +336,12 @@ export default function AdminDashboard() {
               zoom: 85% !important;
             }
           }
+          .admin-main-content {
+            padding: 2.5rem 3rem !important;
+          }
+          .admin-footer {
+            padding: 1.5rem 3rem !important;
+          }
           @media (max-width: 992px) {
             .admin-sidebar {
               position: fixed !important;
@@ -369,6 +375,12 @@ export default function AdminDashboard() {
             }
             .header-wrapper {
               padding: 1rem 1.5rem !important;
+            }
+            .admin-main-content {
+              padding: 1.5rem 1.25rem !important;
+            }
+            .admin-footer {
+              padding: 1.25rem 1.5rem !important;
             }
           }
           @keyframes fadeIn {
@@ -408,6 +420,48 @@ export default function AdminDashboard() {
           @media (max-width: 480px) {
             .stats-grid-5, .stats-grid-4 {
               grid-template-columns: 1fr !important;
+            }
+          }
+          @media (max-width: 576px) {
+            .admin-main-content {
+              padding: 1rem 0.75rem !important;
+            }
+            .admin-footer {
+              padding: 1rem 1rem !important;
+              text-align: center;
+            }
+            .admin-footer > div {
+              justify-content: center !important;
+              flex-direction: column !important;
+              gap: 0.5rem !important;
+            }
+            .header-wrapper {
+              flex-direction: column !important;
+              align-items: flex-start !important;
+              gap: 1rem !important;
+              padding: 1rem 1.25rem !important;
+            }
+            .header-wrapper h1 {
+              font-size: 1.4rem !important;
+            }
+            .header-wrapper p {
+              font-size: 0.75rem !important;
+            }
+            .modal-inner {
+              border-radius: 16px !important;
+              max-height: 95vh !important;
+            }
+            .modal-header {
+              padding: 1rem 1.25rem !important;
+            }
+            .modal-header h3 {
+              font-size: 1.15rem !important;
+            }
+            .modal-body {
+              padding: 1.25rem 1rem !important;
+            }
+            .modal-footer {
+              padding: 1rem 1.25rem !important;
             }
           }
         `}</style>
@@ -804,7 +858,7 @@ export default function AdminDashboard() {
             </button>
           </header>
 
-          <main style={{ padding: "2.5rem 3rem", flexGrow: 1 }}>
+          <main className="admin-main-content" style={{ padding: "2.5rem 3rem", flexGrow: 1 }}>
             
             {error && (
               <div style={{
@@ -1801,7 +1855,7 @@ export default function AdminDashboard() {
           zIndex: 1000,
           padding: "1rem"
         }}>
-          <div style={{
+          <div className="modal-inner" style={{
             background: "#ffffff",
             borderRadius: "24px",
             width: "100%",
@@ -1815,7 +1869,7 @@ export default function AdminDashboard() {
             animation: "fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
           }}>
             {/* Modal Header */}
-            <div style={{
+            <div className="modal-header" style={{
               padding: "1.5rem 2.5rem",
               display: "flex",
               justifyContent: "space-between",
@@ -1855,7 +1909,7 @@ export default function AdminDashboard() {
             </div>
             
             {/* Modal Body */}
-            <div style={{
+            <div className="modal-body" style={{
               padding: "2.5rem",
               overflowY: "auto",
               flex: 1,
@@ -1937,7 +1991,7 @@ export default function AdminDashboard() {
                   <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
                     
                     {/* Row 1: Prior Probabilities & Posterior Scores */}
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "1.5rem" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
                       
                       {/* 1. Prior Probabilities */}
                       <div style={{
@@ -2122,7 +2176,7 @@ export default function AdminDashboard() {
             </div>
             
             {/* Modal Footer */}
-            <div style={{
+            <div className="modal-footer" style={{
               padding: "1.25rem 2.5rem",
               borderTop: "1px solid hsl(var(--card-border))",
               display: "flex",
@@ -2154,7 +2208,7 @@ export default function AdminDashboard() {
       )}
 
           {/* Main Footer inside column */}
-          <footer style={{
+          <footer className="admin-footer" style={{
             borderTop: "1px solid hsl(var(--card-border))",
             padding: "1.5rem 3rem",
             background: "#ffffff",
