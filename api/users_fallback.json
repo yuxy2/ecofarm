@@ -1,0 +1,23 @@
+[
+  {
+    "username": "admin",
+    "password_hash": "3ec426e5b61d8d57dd4231f7872b0de03766f8dd01743666f96597301ed6d151",
+    "salt": "58cc503e74b69f0b3a0c29cb3893359f",
+    "role": "admin",
+    "created_at": "2026-06-11T06:44:06.329507Z"
+  },
+  {
+    "username": "petani1",
+    "password_hash": "a5c9276864e0e561d5c3ef8e7540d030fd448f4485bc4c7e3947f0d56310a533",
+    "salt": "d2872e84cf6a3d42808c990de4aea1ab",
+    "role": "user",
+    "created_at": "2026-06-11T06:47:03.517353Z"
+  },
+  {
+    "username": "dimas",
+    "password_hash": "9208d0eed849d7d20268720a246bf3ffa8b3544c828bbebd76e99169cb87a9c9",
+    "salt": "f13d4df80969e6784a665dca26e4ed84",
+    "role": "user",
+    "created_at": "2026-06-11T19:48:38.343033Z"
+  }
+]
