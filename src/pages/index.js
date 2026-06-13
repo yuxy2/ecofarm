@@ -169,7 +169,7 @@ export default function Home() {
                   color: "hsl(var(--text-dark))",
                   letterSpacing: "-0.03em"
                 }} id="hero-title">
-                  Leading Provider of Smart Agriculture for All Farmers.
+                  Penyedia Utama Pertanian Cerdas untuk Semua Petani.
                 </h1>
                 
                 <p style={{ 
@@ -239,7 +239,7 @@ export default function Home() {
                 <p className="feature-desc" style={{ fontSize: "0.9rem", opacity: "0.9" }}>
                   Mendeteksi kesesuaian kadar Nitrogen (N), Fosfor (P), dan Kalium (K) untuk pertumbuhan optimal tanaman budidaya.
                 </p>
-                <div style={{ marginTop: "1.5rem", fontWeight: "700", fontSize: "0.85rem" }}>Discover More &rarr;</div>
+                <div style={{ marginTop: "1.5rem", fontWeight: "700", fontSize: "0.85rem" }}>Pelajari Lebih Lanjut &rarr;</div>
               </div>
               
               {/* Card 2: Yellow Accent Card */}
@@ -249,7 +249,7 @@ export default function Home() {
                 <p className="feature-desc" style={{ fontSize: "0.9rem", opacity: "0.9" }}>
                   Memperhitungkan faktor lingkungan krusial seperti suhu rata-rata, persentase kelembaban udara, pH tanah, dan curah hujan tahunan.
                 </p>
-                <div style={{ marginTop: "1.5rem", fontWeight: "700", fontSize: "0.85rem" }}>Discover More &rarr;</div>
+                <div style={{ marginTop: "1.5rem", fontWeight: "700", fontSize: "0.85rem" }}>Pelajari Lebih Lanjut &rarr;</div>
               </div>
               
               {/* Card 3: White Cream Card */}
@@ -259,7 +259,7 @@ export default function Home() {
                 <p className="feature-desc" style={{ fontSize: "0.9rem", opacity: "0.9" }}>
                   Melakukan kalkulasi klasifikasi instan menggunakan Teorema Bayes untuk menghitung peluang kesuksesan budidaya tanaman.
                 </p>
-                <div style={{ marginTop: "1.5rem", fontWeight: "700", fontSize: "0.85rem", color: "hsl(var(--primary))" }}>Discover More &rarr;</div>
+                <div style={{ marginTop: "1.5rem", fontWeight: "700", fontSize: "0.85rem", color: "hsl(var(--primary))" }}>Pelajari Lebih Lanjut &rarr;</div>
               </div>
             </div>
           </div>
@@ -273,7 +273,7 @@ export default function Home() {
               <div>
                 <span className="section-badge" style={{ marginBottom: "0.75rem" }}>Tentang Kami</span>
                 <h2 style={{ fontSize: "2.5rem", fontWeight: "800", lineHeight: "1.2", marginBottom: "1.5rem", color: "hsl(var(--text-dark))" }}>
-                  Currently We are Growing & Selling Organic Food and Best Agriculture.
+                  Saat Ini Kami Mengembangkan & Menyediakan Pangan Organik dan Pertanian Terbaik.
                 </h2>
                 <p style={{ color: "hsl(var(--text-muted))", fontSize: "0.95rem", lineHeight: "1.7", marginBottom: "2rem" }}>
                   EcoFarming berkomitmen membantu petani mengoptimalkan produktivitas tanah secara sains. Dengan sistem rekomendasi berbasis Naive Bayes, kami memetakan kondisi tanah riil ke profil agronomi tanaman ideal untuk meminimalkan risiko gagal panen.
@@ -339,14 +339,14 @@ export default function Home() {
               
               <div className="ml-content-card" id="ml-card-info" style={{ borderRadius: "12px", border: "1px solid hsl(var(--card-border))" }}>
                 <span className="section-badge">Algoritma AI</span>
-                <h2 style={{ fontSize: "2.25rem", fontWeight: 800, margin: "0.5rem 0 1rem 0", color: "hsl(var(--text-dark))" }}>Engine Machine Learning</h2>
+                <h2 style={{ fontSize: "2.25rem", fontWeight: 800, margin: "0.5rem 0 1rem 0", color: "hsl(var(--text-dark))" }}>Sistem Pembelajaran Mesin (Machine Learning)</h2>
                 <p style={{ color: "hsl(var(--text-muted))", fontSize: "0.95rem", lineHeight: "1.7" }}>
                   Aplikasi EcoFarming berjalan dengan memodelkan Teorema Bayes dalam menentukan probabilitas bersyarat kesesuaian tanaman.
                 </p>
 
                 <div className="ml-card-inner">
                   <div className="ml-method" id="ml-nb-info" style={{ marginTop: "1rem", borderRadius: "8px", background: "#ffffff", border: "1px solid hsl(var(--card-border))" }}>
-                    <h4 className="ml-method-title" style={{ color: "hsl(var(--text-dark))" }}><span>📊</span> Naive Bayes Classifier</h4>
+                    <h4 className="ml-method-title" style={{ color: "hsl(var(--text-dark))" }}><span>📊</span> Klasifikasi Naive Bayes (Naive Bayes Classifier)</h4>
                     <p className="ml-method-desc">
                       Menghitung nilai peluang posterior berdasarkan statistik data latih agronomi untuk tanaman Kopi, Jagung, dan Padi.
                     </p>
@@ -522,7 +522,7 @@ export default function Home() {
                   />
                 </div>
                 <h4 className="team-name">Yusuf Mustofa</h4>
-                <span className="team-role">Frontend & Backend Dev</span>
+                <span className="team-role">Pengembang Frontend & Backend</span>
                 <p style={{ fontSize: "0.85rem", fontWeight: "700", color: "hsl(var(--text-muted))", marginBottom: "0.5rem" }}>NIM. 22330004</p>
                 <p className="team-univ">Program Studi Informatika<br/>Universitas Janabadra</p>
               </div>
@@ -549,7 +549,7 @@ export default function Home() {
                   <KadangAvatar />
                 </div>
                 <h4 className="team-name">Kadang Katon</h4>
-                <span className="team-role">Dataset</span>
+                <span className="team-role">Pengelola Dataset</span>
                 <p style={{ fontSize: "0.85rem", fontWeight: "700", color: "hsl(var(--text-muted))", marginBottom: "0.5rem" }}>NIM. 23330033</p>
                 <p className="team-univ">Program Studi Informatika<br/>Universitas Janabadra</p>
               </div>

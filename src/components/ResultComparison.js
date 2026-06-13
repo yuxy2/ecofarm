@@ -46,7 +46,7 @@ export default function ResultComparison({ data }) {
     return (
       <div className="comparison-card nb" style={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}>
         <span className="algorithm-badge">
-          Naive Bayes Classifier
+          Klasifikasi Naive Bayes
         </span>
 
         <h3 className="result-crop">

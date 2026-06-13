@@ -540,7 +540,7 @@ export default function Analisis() {
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <label style={{ fontSize: "0.9rem", fontWeight: "600", color: "hsl(var(--text-dark))" }}>
-                      Humidity (%) - V5
+                      Kelembaban (%) - V5
                     </label>
                     <span style={{ cursor: "help", fontSize: "0.85rem", color: "hsl(var(--text-muted))" }} title="Kelembaban udara sekitar lahan">❔</span>
                   </div>
@@ -606,7 +606,7 @@ export default function Analisis() {
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <label style={{ fontSize: "0.9rem", fontWeight: "600", color: "hsl(var(--text-dark))" }}>
-                      Rainfall (mm) - V7
+                      Curah Hujan (mm) - V7
                     </label>
                     <span style={{ cursor: "help", fontSize: "0.85rem", color: "hsl(var(--text-muted))" }} title="Curah hujan rata-rata bulanan">❔</span>
                   </div>
