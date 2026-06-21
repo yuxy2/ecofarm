@@ -123,6 +123,7 @@ export default function Home() {
           <ul className="nav-menu" id="nav-menu">
             <li><a href="#fitur" className="nav-item-link" id="link-fitur">Tentang Kami</a></li>
             <li><a href="#algoritma" className="nav-item-link" id="link-algo">Algoritma AI</a></li>
+            <li><a href="#petunjuk" className="nav-item-link" id="link-petunjuk">Petunjuk</a></li>
             <li><a href="#tim" className="nav-item-link" id="link-tim">Tim Kami</a></li>
             {isLoggedIn ? (
               <>
@@ -490,6 +491,192 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Section: Petunjuk Penggunaan Aplikasi */}
+        <section style={{ padding: "6rem 2rem", background: "linear-gradient(180deg, #ffffff 0%, hsla(45, 15%, 94%, 0.4) 100%)" }} id="petunjuk">
+          <div className="container">
+            <div className="section-header" style={{ textAlign: "center", marginBottom: "4rem" }}>
+              <span className="section-badge">Petunjuk Penggunaan</span>
+              <h2 className="section-title">Cara Mudah Menganalisis Lahan Anda</h2>
+              <p className="section-desc" style={{ margin: "0.5rem auto 0 auto" }}>
+                Ikuti langkah-langkah terstruktur di bawah ini untuk mendapatkan rekomendasi tanaman budidaya yang presisi dari model kecerdasan buatan.
+              </p>
+            </div>
+
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+              gap: "2rem",
+              position: "relative"
+            }}>
+              
+              {/* Step 1 */}
+              <div style={{
+                background: "#ffffff",
+                border: "1px solid hsl(var(--card-border))",
+                borderRadius: "16px",
+                padding: "2rem 1.75rem",
+                boxShadow: "var(--shadow-sm)",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+                transition: "transform 0.3s ease",
+                cursor: "default"
+              }} className="feature-card-hoverable">
+                <div style={{
+                  position: "absolute",
+                  top: "-20px",
+                  left: "24px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  background: "hsl(var(--primary))",
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "800",
+                  fontSize: "1.1rem",
+                  boxShadow: "0 4px 10px rgba(15, 64, 49, 0.25)"
+                }}>
+                  1
+                </div>
+                <div style={{ fontSize: "2rem", marginTop: "0.5rem" }}>🔑</div>
+                <div>
+                  <h3 style={{ fontSize: "1.15rem", fontWeight: "800", color: "hsl(var(--text-dark))", marginBottom: "0.5rem" }}>Registrasi & Masuk</h3>
+                  <p style={{ color: "hsl(var(--text-muted))", fontSize: "0.85rem", lineHeight: "1.6" }}>
+                    Buat akun baru atau login menggunakan akun yang ada agar dapat mengakses fitur prediksi dan menyimpan seluruh riwayat analisis lahan Anda secara aman.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div style={{
+                background: "#ffffff",
+                border: "1px solid hsl(var(--card-border))",
+                borderRadius: "16px",
+                padding: "2rem 1.75rem",
+                boxShadow: "var(--shadow-sm)",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+                transition: "transform 0.3s ease",
+                cursor: "default"
+              }} className="feature-card-hoverable">
+                <div style={{
+                  position: "absolute",
+                  top: "-20px",
+                  left: "24px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  background: "hsl(var(--accent))",
+                  color: "hsl(var(--text-dark))",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "800",
+                  fontSize: "1.1rem",
+                  boxShadow: "0 4px 10px rgba(226, 179, 67, 0.25)"
+                }}>
+                  2
+                </div>
+                <div style={{ fontSize: "2rem", marginTop: "0.5rem" }}>📝</div>
+                <div>
+                  <h3 style={{ fontSize: "1.15rem", fontWeight: "800", color: "hsl(var(--text-dark))", marginBottom: "0.5rem" }}>Isi Parameter Lahan</h3>
+                  <p style={{ color: "hsl(var(--text-muted))", fontSize: "0.85rem", lineHeight: "1.6" }}>
+                    Masukkan nilai unsur hara Nitrogen (N), Fosfor (P), Kalium (K) serta kondisi lingkungan (Suhu, Kelembaban, pH, Curah Hujan, Irigasi) pada form prediksi.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div style={{
+                background: "#ffffff",
+                border: "1px solid hsl(var(--card-border))",
+                borderRadius: "16px",
+                padding: "2rem 1.75rem",
+                boxShadow: "var(--shadow-sm)",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+                transition: "transform 0.3s ease",
+                cursor: "default"
+              }} className="feature-card-hoverable">
+                <div style={{
+                  position: "absolute",
+                  top: "-20px",
+                  left: "24px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  background: "hsl(var(--primary))",
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "800",
+                  fontSize: "1.1rem",
+                  boxShadow: "0 4px 10px rgba(15, 64, 49, 0.25)"
+                }}>
+                  3
+                </div>
+                <div style={{ fontSize: "2rem", marginTop: "0.5rem" }}>🤖</div>
+                <div>
+                  <h3 style={{ fontSize: "1.15rem", fontWeight: "800", color: "hsl(var(--text-dark))", marginBottom: "0.5rem" }}>Jalankan Klasifikasi</h3>
+                  <p style={{ color: "hsl(var(--text-muted))", fontSize: "0.85rem", lineHeight: "1.6" }}>
+                    Tekan tombol "Prediksi Tanaman". Model Naive Bayes dengan perataan Laplace akan melakukan kalkulasi bersyarat secara instan pada dataset latih.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 4 */}
+              <div style={{
+                background: "#ffffff",
+                border: "1px solid hsl(var(--card-border))",
+                borderRadius: "16px",
+                padding: "2rem 1.75rem",
+                boxShadow: "var(--shadow-sm)",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+                transition: "transform 0.3s ease",
+                cursor: "default"
+              }} className="feature-card-hoverable">
+                <div style={{
+                  position: "absolute",
+                  top: "-20px",
+                  left: "24px",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  background: "hsl(var(--secondary))",
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "800",
+                  fontSize: "1.1rem",
+                  boxShadow: "0 4px 10px rgba(35, 78, 64, 0.25)"
+                }}>
+                  4
+                </div>
+                <div style={{ fontSize: "2rem", marginTop: "0.5rem" }}>📄</div>
+                <div>
+                  <h3 style={{ fontSize: "1.15rem", fontWeight: "800", color: "hsl(var(--text-dark))", marginBottom: "0.5rem" }}>Unduh & Terapkan</h3>
+                  <p style={{ color: "hsl(var(--text-muted))", fontSize: "0.85rem", lineHeight: "1.6" }}>
+                    Dapatkan rekomendasi tanaman beserta tips budidaya presisi. Anda juga dapat mengunduh laporan berformat PDF untuk dicetak.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
         {/* Section: Academic Team */}
         <section className="team-section" id="tim" style={{ padding: "7rem 2rem" }}>
           <div className="container">
@@ -617,6 +804,7 @@ export default function Home() {
                 <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                   <li><a href="#fitur" style={{ color: "inherit", textDecoration: "none" }}>Tentang Kami</a></li>
                   <li><a href="#algoritma" style={{ color: "inherit", textDecoration: "none" }}>Algoritma AI</a></li>
+                  <li><a href="#petunjuk" style={{ color: "inherit", textDecoration: "none" }}>Petunjuk Penggunaan</a></li>
                   <li><a href="#tim" style={{ color: "inherit", textDecoration: "none" }}>Tim Pembuat</a></li>
                   <li><Link href="/analisis" style={{ color: "inherit", textDecoration: "none" }}>Alat Prediksi</Link></li>
                 </ul>
