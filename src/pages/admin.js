@@ -331,11 +331,6 @@ export default function AdminDashboard() {
         
         {/* Mobile Responsive Style Injections */}
         <style>{`
-          @media (min-width: 1200px) {
-            .admin-dashboard-root {
-              zoom: 85% !important;
-            }
-          }
           .admin-main-content {
             padding: 2.5rem 3rem !important;
           }
