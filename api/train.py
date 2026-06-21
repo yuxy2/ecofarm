@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import CategoricalNB
 from sklearn.metrics import accuracy_score
 
 # 1. Definisi profil ideal tanaman langsung dalam Kategori diskret (V1-V8)
@@ -168,10 +168,10 @@ def main():
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
     
-    # 2. Train Model Naive Bayes
-    nb = GaussianNB(var_smoothing=0.2)
-    nb.fit(X_train_scaled, y_train)
-    nb_preds = nb.predict(X_test_scaled)
+    # 2. Train Model Naive Bayes dengan Laplace Smoothing (alpha=1.0)
+    nb = CategoricalNB(alpha=1.0)
+    nb.fit(X_train, y_train)
+    nb_preds = nb.predict(X_test)
     nb_acc = accuracy_score(y_test, nb_preds)
     print(f"Akurasi Model Naive Bayes: {nb_acc * 100:.2f}%")
     

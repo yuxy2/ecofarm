@@ -6,6 +6,8 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [nbAccuracy, setNbAccuracy] = useState("100.00%");
+  const [nbAccuracyNum, setNbAccuracyNum] = useState(100.0);
 
   const handleLogout = () => {
     localStorage.removeItem("ecofarming_token");
@@ -46,6 +48,23 @@ export default function Home() {
     };
 
     verifyAuth();
+
+    const fetchAccuracy = async () => {
+      try {
+        const res = await fetch("/api/health");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.accuracies && data.accuracies.nb !== undefined) {
+            const accVal = data.accuracies.nb * 100;
+            setNbAccuracy(`${accVal.toFixed(2)}%`);
+            setNbAccuracyNum(accVal);
+          }
+        }
+      } catch (err) {
+        console.error("Gagal mengambil akurasi model:", err);
+      }
+    };
+    fetchAccuracy();
   }, []);
   // SVG Avatars for team members without uploaded photos
   const DicoAvatar = () => (
@@ -362,10 +381,10 @@ export default function Home() {
                 <div style={{ background: "#ffffff", border: "1px solid hsl(var(--card-border))", padding: "1.75rem", borderRadius: "12px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.75rem", fontSize: "0.9rem", fontWeight: 700 }}>
                     <span>Akurasi Model Naive Bayes</span>
-                    <span style={{ color: "hsl(var(--secondary))" }}>88.89%</span>
+                    <span style={{ color: "hsl(var(--secondary))" }}>{nbAccuracy}</span>
                   </div>
                   <div style={{ width: "100%", height: "8px", backgroundColor: "hsl(var(--bg-color))", borderRadius: "4px", overflow: "hidden" }}>
-                    <div style={{ width: "88.89%", height: "100%", backgroundColor: "hsl(var(--secondary))", borderRadius: "4px" }}></div>
+                    <div style={{ width: `${nbAccuracyNum}%`, height: "100%", backgroundColor: "hsl(var(--secondary))", borderRadius: "4px", transition: "width 0.8s ease-out" }}></div>
                   </div>
                 </div>
               </div>

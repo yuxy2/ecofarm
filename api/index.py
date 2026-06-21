@@ -397,34 +397,19 @@ def health():
     }
 
 def calculate_smoothed_nb_probabilities(nb_model, scaler, features, inputs):
-    # Scale inputs
-    input_list = [inputs[f] for f in features]
-    input_df = pd.DataFrame([input_list], columns=features)
-    input_scaled = scaler.transform(input_df)[0]
-    
     classes = list(nb_model.classes_)
-    class_prior = list(nb_model.class_prior_)
     
     log_numerators = []
     
     for c_idx, c_name in enumerate(classes):
-        prior = float(class_prior[c_idx])
+        prior = math.exp(nb_model.class_log_prior_[c_idx])
         log_l = math.log(prior)
         
         for f_idx, f_name in enumerate(features):
-            val_scaled = float(input_scaled[f_idx])
-            mean = float(nb_model.theta_[c_idx][f_idx])
-            variance = float(nb_model.var_[c_idx][f_idx])
-            eps = float(getattr(nb_model, "epsilon_", 1e-9))
-            var_eps = variance + eps
-            
-            # Floor exponent to prevent float underflow
-            pdf_exponent = -((val_scaled - mean) ** 2) / (2 * var_eps)
-            pdf_exponent = max(pdf_exponent, -15.0)
-            
-            pdf_denominator = math.sqrt(2 * math.pi * var_eps)
-            log_pdf = pdf_exponent - math.log(pdf_denominator)
-            log_l += log_pdf
+            val = int(inputs[f_name])
+            max_val = nb_model.feature_log_prob_[f_idx].shape[1] - 1
+            val_idx = max(0, min(val, max_val))
+            log_l += nb_model.feature_log_prob_[f_idx][c_idx][val_idx]
             
         log_numerators.append(log_l)
         
@@ -927,7 +912,6 @@ def calculate_nb(
             })
             
         # Prior probabilities
-        class_prior = list(nb_model.class_prior_)
         class_count = list(nb_model.class_count_)
         total_count = float(sum(class_count))
         
@@ -935,33 +919,25 @@ def calculate_nb(
         class_results = []
         
         for c_idx, c_name in enumerate(classes):
-            prior = float(class_prior[c_idx])
+            prior = math.exp(nb_model.class_log_prior_[c_idx])
             count = float(class_count[c_idx])
             feature_likelihoods = []
             likelihood_prod = 1.0
             
             for f_idx, f_name in enumerate(features):
-                val_scaled = float(input_scaled[f_idx])
-                mean = float(nb_model.theta_[c_idx][f_idx])
-                variance = float(nb_model.var_[c_idx][f_idx])
-                # Gunakan nilai epsilon_ aktual dari model untuk penyelarasan perataan variansi (smoothing)
-                eps = float(getattr(nb_model, "epsilon_", 1e-9))
-                var_eps = variance + eps
+                val = int(inputs[f_name])
+                max_val = nb_model.feature_log_prob_[f_idx].shape[1] - 1
+                val_idx = max(0, min(val, max_val))
                 
-                pdf_exponent = -((val_scaled - mean) ** 2) / (2 * var_eps)
-                # Floor exponent to prevent float underflow and absolute 0%
-                pdf_exponent = max(pdf_exponent, -15.0)
-                
-                pdf_denominator = math.sqrt(2 * math.pi * var_eps)
-                pdf_val = (1.0 / pdf_denominator) * math.exp(pdf_exponent)
+                pdf_val = math.exp(nb_model.feature_log_prob_[f_idx][c_idx][val_idx])
                 
                 feature_likelihoods.append({
                     "feature": f_name,
-                    "scaled_value": val_scaled,
-                    "mean": mean,
-                    "variance": variance,
-                    "pdf_exponent": pdf_exponent,
-                    "pdf_denominator": pdf_denominator,
+                    "scaled_value": float(val),
+                    "mean": 0.0,
+                    "variance": 0.0,
+                    "pdf_exponent": 0.0,
+                    "pdf_denominator": 1.0,
                     "likelihood": pdf_val
                 })
                 likelihood_prod *= pdf_val
@@ -1089,9 +1065,7 @@ def add_to_training(request: AddToTrainingRequest, current_user: dict = Depends(
         X = df[features]
         y = df["label"]
         
-        from sklearn.model_selection import train_test_split
-        from sklearn.preprocessing import StandardScaler
-        from sklearn.naive_bayes import GaussianNB
+        from sklearn.naive_bayes import CategoricalNB
         from sklearn.metrics import accuracy_score
         
         class_counts = y.value_counts()
@@ -1106,9 +1080,9 @@ def add_to_training(request: AddToTrainingRequest, current_user: dict = Depends(
         X_train_scaled = scaler.fit_transform(X_train)
         X_test_scaled = scaler.transform(X_test)
         
-        nb = GaussianNB(var_smoothing=0.2)
-        nb.fit(X_train_scaled, y_train)
-        nb_preds = nb.predict(X_test_scaled)
+        nb = CategoricalNB(alpha=1.0)
+        nb.fit(X_train, y_train)
+        nb_preds = nb.predict(X_test)
         nb_acc = accuracy_score(y_test, nb_preds)
         
         # Save model pickle

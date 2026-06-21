@@ -50,7 +50,7 @@ export default function EducationalInfo() {
           </p>
           <ol style={{ paddingLeft: "1.5rem", marginBottom: "0.75rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
             <li>Algoritma mengasumsikan bahwa setiap parameter tanah bersifat independen satu sama lain (asumsi "Naive" / naif).</li>
-            <li>Berdasarkan data latih, model mempelajari fungsi distribusi peluang normal (Gaussian) untuk setiap fitur pada masing-masing tanaman.</li>
+            <li>Berdasarkan data latih, model menghitung probabilitas kemunculan kategori untuk setiap fitur pada masing-masing tanaman menggunakan perataan Laplace (Laplace smoothing) untuk menghindari probabilitas nol.</li>
             <li>Ketika Anda memasukkan data baru, model menghitung probabilitas bersyarat (probabilitas posterior) untuk setiap jenis tanaman.</li>
             <li>Tanaman dengan probabilitas posterior tertinggi dipilih sebagai rekomendasi akhir.</li>
           </ol>
