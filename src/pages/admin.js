@@ -2124,10 +2124,34 @@ export default function AdminDashboard() {
                         <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
                           3. Un-normalized Posterior Scores
                         </h4>
-                        <div style={{ fontFamily: "monospace", fontSize: "0.95rem", color: "hsl(var(--text-main))", lineHeight: "2.2", fontWeight: "600" }}>
-                          <div>Score(Padi) = P(Padi) × P(x|Padi) = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.numerator.toExponential(8)}</span></div>
-                          <div>Score(Jagung) = P(Jagung) × P(x|Jagung) = <span style={{ color: "hsl(var(--accent))" }}>{clsJagung.numerator.toExponential(8)}</span></div>
-                          <div>Score(Kopi) = P(Kopi) × P(x|Kopi) = <span style={{ color: "hsl(var(--danger))" }}>{clsKopi.numerator.toExponential(8)}</span></div>
+                        <div style={{ fontFamily: "monospace", fontSize: "0.82rem", color: "hsl(var(--text-main))", lineHeight: "1.7", fontWeight: "600" }}>
+                          <div style={{ marginBottom: "0.75rem" }}>
+                            <div>Score(Padi) = P(Padi) × P(x|Padi)</div>
+                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
+                              = {clsPadi.prior.toFixed(8)} × {clsPadi.likelihood_product.toExponential(8)}
+                            </div>
+                            <div style={{ paddingLeft: "1rem" }}>
+                              = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.numerator.toExponential(8)}</span>
+                            </div>
+                          </div>
+                          <div style={{ marginBottom: "0.75rem" }}>
+                            <div>Score(Jagung) = P(Jagung) × P(x|Jagung)</div>
+                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
+                              = {clsJagung.prior.toFixed(8)} × {clsJagung.likelihood_product.toExponential(8)}
+                            </div>
+                            <div style={{ paddingLeft: "1rem" }}>
+                              = <span style={{ color: "hsl(var(--accent))" }}>{clsJagung.numerator.toExponential(8)}</span>
+                            </div>
+                          </div>
+                          <div>
+                            <div>Score(Kopi) = P(Kopi) × P(x|Kopi)</div>
+                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
+                              = {clsKopi.prior.toFixed(8)} × {clsKopi.likelihood_product.toExponential(8)}
+                            </div>
+                            <div style={{ paddingLeft: "1rem" }}>
+                              = <span style={{ color: "hsl(var(--danger))" }}>{clsKopi.numerator.toExponential(8)}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       
@@ -2150,9 +2174,19 @@ export default function AdminDashboard() {
                         gap: "1.25rem"
                       }}>
                         {featuresList.map((featKey) => {
-                          const padiL = getFeatLikelihood(clsPadi, featKey);
-                          const jagungL = getFeatLikelihood(clsJagung, featKey);
-                          const kopiL = getFeatLikelihood(clsKopi, featKey);
+                          const getFeatObj = (cls, featName) => {
+                            return cls.features.find(f => f.feature === featName) || { likelihood: 0, count: 0, k: 3, class_count: 10 };
+                          };
+                          
+                          const padiObj = getFeatObj(clsPadi, featKey);
+                          const jagungObj = getFeatObj(clsJagung, featKey);
+                          const kopiObj = getFeatObj(clsKopi, featKey);
+                          
+                          const formatFormula = (obj) => {
+                            const num = obj.count + 1;
+                            const den = obj.class_count + obj.k;
+                            return `(${obj.count}+1)/(${obj.class_count}+${obj.k}) = ${num}/${den} = ${obj.likelihood.toFixed(8)}`;
+                          };
                           
                           return (
                             <div key={featKey} style={{
@@ -2178,10 +2212,10 @@ export default function AdminDashboard() {
                                   {shortKeys[featKey]}
                                 </span>
                               </div>
-                              <div style={{ fontFamily: "monospace", fontSize: "0.85rem", color: "hsl(var(--text-main))", lineHeight: "1.8", fontWeight: "600" }}>
-                                <div>Padi: <span style={{ color: "hsl(var(--secondary))" }}>{formatProb(padiL)}</span></div>
-                                <div>Jagung: <span style={{ color: "hsl(var(--accent))" }}>{formatProb(jagungL)}</span></div>
-                                <div>Kopi: <span style={{ color: "hsl(var(--danger))" }}>{formatProb(kopiL)}</span></div>
+                              <div style={{ fontFamily: "monospace", fontSize: "0.68rem", color: "hsl(var(--text-main))", lineHeight: "1.8", fontWeight: "600", whiteSpace: "nowrap" }}>
+                                <div>Padi: <span style={{ color: "hsl(var(--secondary))" }}>{formatFormula(padiObj)}</span></div>
+                                <div>Jagung: <span style={{ color: "hsl(var(--accent))" }}>{formatFormula(jagungObj)}</span></div>
+                                <div>Kopi: <span style={{ color: "hsl(var(--danger))" }}>{formatFormula(kopiObj)}</span></div>
                               </div>
                             </div>
                           );
