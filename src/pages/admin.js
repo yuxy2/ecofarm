@@ -2080,132 +2080,28 @@ export default function AdminDashboard() {
                   const fObj = cls.features.find(f => f.feature === featName);
                   return fObj ? fObj.likelihood : 0;
                 };
-                
-                const formatProb = (val) => {
-                  if (val === 0) return "0.00000000";
-                  if (val < 0.00000001 || val > 1000) {
-                    return val.toExponential(8);
-                  }
-                  return val.toFixed(8);
-                };
-                
                 return (
                   <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
                     
-                    {/* Row 1: Tahap I, III, IV */}
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
-                      
-                      {/* Left Column: Tahap I & Tahap III */}
-                      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                        
-                        {/* Tahap I: Menghitung Probabilitas Prior Kelas P(C) */}
-                        <div style={{
-                          background: "#ffffff",
-                          border: "1px solid hsl(var(--card-border))",
-                          borderRadius: "16px",
-                          padding: "1.5rem 1.75rem",
-                          boxShadow: "var(--shadow-sm)"
-                        }}>
-                          <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
-                            Tahap I: Menghitung Probabilitas Prior Kelas P(C)
-                          </h4>
-                          <div style={{ fontFamily: "monospace", fontSize: "0.95rem", color: "hsl(var(--text-main))", lineHeight: "2.2", fontWeight: "600" }}>
-                            <div>P(Padi) = {clsPadi.count} / {clsPadi.total_count} = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.prior.toFixed(8)}</span></div>
-                            <div>P(Jagung) = {clsJagung.count} / {clsJagung.total_count} = <span style={{ color: "hsl(var(--accent))" }}>{clsJagung.prior.toFixed(8)}</span></div>
-                            <div>P(Kopi) = {clsKopi.count} / {clsKopi.total_count} = <span style={{ color: "hsl(var(--danger))" }}>{clsKopi.prior.toFixed(8)}</span></div>
-                          </div>
-                        </div>
-                        
-                        {/* Tahap III: Mengalikan Semua Likelihood Variabel P(X|Ci) */}
-                        <div style={{
-                          background: "#ffffff",
-                          border: "1px solid hsl(var(--card-border))",
-                          borderRadius: "16px",
-                          padding: "1.5rem 1.75rem",
-                          boxShadow: "var(--shadow-sm)",
-                          flex: 1
-                        }}>
-                          <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
-                            Tahap III: Mengalikan Semua Likelihood Variabel P(X|Ci)
-                          </h4>
-                          <div style={{ fontFamily: "monospace", fontSize: "0.78rem", color: "hsl(var(--text-main))", lineHeight: "1.8", fontWeight: "600" }}>
-                            <div style={{ marginBottom: "0.75rem" }}>
-                              <div>P(X | Padi) = P(V1|Padi) × ... × P(V8|Padi)</div>
-                              <div style={{ paddingLeft: "0.75rem", color: "hsl(var(--text-muted))", fontSize: "0.72rem", whiteSpace: "normal" }}>
-                                = {clsPadi.features.map(f => f.likelihood.toFixed(4)).join(" × ")}
-                              </div>
-                              <div style={{ paddingLeft: "0.75rem" }}>
-                                = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.likelihood_product.toExponential(8)}</span>
-                              </div>
-                            </div>
-                            <div style={{ marginBottom: "0.75rem" }}>
-                              <div>P(X | Jagung) = P(V1|Jagung) × ... × P(V8|Jagung)</div>
-                              <div style={{ paddingLeft: "0.75rem", color: "hsl(var(--text-muted))", fontSize: "0.72rem", whiteSpace: "normal" }}>
-                                = {clsJagung.features.map(f => f.likelihood.toFixed(4)).join(" × ")}
-                              </div>
-                              <div style={{ paddingLeft: "0.75rem" }}>
-                                = <span style={{ color: "hsl(var(--accent))" }}>{clsJagung.likelihood_product.toExponential(8)}</span>
-                              </div>
-                            </div>
-                            <div>
-                              <div>P(X | Kopi) = P(V1|Kopi) × ... × P(V8|Kopi)</div>
-                              <div style={{ paddingLeft: "0.75rem", color: "hsl(var(--text-muted))", fontSize: "0.72rem", whiteSpace: "normal" }}>
-                                = {clsKopi.features.map(f => f.likelihood.toFixed(4)).join(" × ")}
-                              </div>
-                              <div style={{ paddingLeft: "0.75rem" }}>
-                                = <span style={{ color: "hsl(var(--danger))" }}>{clsKopi.likelihood_product.toExponential(8)}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
+                    {/* Tahap I: Menghitung Probabilitas Prior Kelas P(C) */}
+                    <div style={{
+                      background: "#ffffff",
+                      border: "1px solid hsl(var(--card-border))",
+                      borderRadius: "16px",
+                      padding: "1.5rem 1.75rem",
+                      boxShadow: "var(--shadow-sm)"
+                    }}>
+                      <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
+                        Tahap I: Menghitung Probabilitas Prior Kelas P(C)
+                      </h4>
+                      <div style={{ fontFamily: "monospace", fontSize: "0.95rem", color: "hsl(var(--text-main))", lineHeight: "2.2", fontWeight: "600" }}>
+                        <div>P(Padi) = {clsPadi.count} / {clsPadi.total_count} = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.prior.toFixed(8)}</span></div>
+                        <div>P(Jagung) = {clsJagung.count} / {clsJagung.total_count} = <span style={{ color: "hsl(var(--accent))" }}>{clsJagung.prior.toFixed(8)}</span></div>
+                        <div>P(Kopi) = {clsKopi.count} / {clsKopi.total_count} = <span style={{ color: "hsl(var(--danger))" }}>{clsKopi.prior.toFixed(8)}</span></div>
                       </div>
-
-                      {/* Right Column: Tahap IV: Mengalikan Likelihood dengan Probabilitas Prior */}
-                      <div style={{
-                        background: "#ffffff",
-                        border: "1px solid hsl(var(--card-border))",
-                        borderRadius: "16px",
-                        padding: "1.5rem 1.75rem",
-                        boxShadow: "var(--shadow-sm)"
-                      }}>
-                        <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
-                          Tahap IV: Mengalikan Likelihood dengan Probabilitas Prior P(X|Ci) × P(Ci)
-                        </h4>
-                        <div style={{ fontFamily: "monospace", fontSize: "0.82rem", color: "hsl(var(--text-main))", lineHeight: "1.7", fontWeight: "600" }}>
-                          <div style={{ marginBottom: "0.75rem" }}>
-                            <div>Score(Padi) = P(Padi) × P(x|Padi)</div>
-                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
-                              = {clsPadi.prior.toFixed(8)} × {clsPadi.likelihood_product.toExponential(8)}
-                            </div>
-                            <div style={{ paddingLeft: "1rem" }}>
-                              = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.numerator.toExponential(8)}</span>
-                            </div>
-                          </div>
-                          <div style={{ marginBottom: "0.75rem" }}>
-                            <div>Score(Jagung) = P(Jagung) × P(x|Jagung)</div>
-                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
-                              = {clsJagung.prior.toFixed(8)} × {clsJagung.likelihood_product.toExponential(8)}
-                            </div>
-                            <div style={{ paddingLeft: "1rem" }}>
-                              = <span style={{ color: "hsl(var(--accent))" }}>{clsJagung.numerator.toExponential(8)}</span>
-                            </div>
-                          </div>
-                          <div>
-                            <div>Score(Kopi) = P(Kopi) × P(x|Kopi)</div>
-                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
-                              = {clsKopi.prior.toFixed(8)} × {clsKopi.likelihood_product.toExponential(8)}
-                            </div>
-                            <div style={{ paddingLeft: "1rem" }}>
-                              = <span style={{ color: "hsl(var(--danger))" }}>{clsKopi.numerator.toExponential(8)}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
                     </div>
-                    
-                    {/* Row 2: Conditional Probabilities (Likelihoods) */}
+
+                    {/* Tahap II: Menghitung Likelihood P(X|Ci) dengan Laplace Smoothing (V1 s/d V8) */}
                     <div style={{
                       background: "#ffffff",
                       border: "1px solid hsl(var(--card-border))",
@@ -2270,8 +2166,97 @@ export default function AdminDashboard() {
                         })}
                       </div>
                     </div>
-                    
-                    {/* Row 3: Hasil Normalisasi (%) */}
+
+                    {/* Row 3: Tahap III & Tahap IV side-by-side */}
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
+                      
+                      {/* Tahap III: Mengalikan Semua Likelihood Variabel P(X|Ci) */}
+                      <div style={{
+                        background: "#ffffff",
+                        border: "1px solid hsl(var(--card-border))",
+                        borderRadius: "16px",
+                        padding: "1.5rem 1.75rem",
+                        boxShadow: "var(--shadow-sm)"
+                      }}>
+                        <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
+                          Tahap III: Mengalikan Semua Likelihood Variabel P(X|Ci)
+                        </h4>
+                        <div style={{ fontFamily: "monospace", fontSize: "0.78rem", color: "hsl(var(--text-main))", lineHeight: "1.8", fontWeight: "600" }}>
+                          <div style={{ marginBottom: "0.75rem" }}>
+                            <div>P(X | Padi) = P(V1|Padi) × ... × P(V8|Padi)</div>
+                            <div style={{ paddingLeft: "0.75rem", color: "hsl(var(--text-muted))", fontSize: "0.72rem", whiteSpace: "normal" }}>
+                              = {clsPadi.features.map(f => f.likelihood.toFixed(4)).join(" × ")}
+                            </div>
+                            <div style={{ paddingLeft: "0.75rem" }}>
+                              = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.likelihood_product.toExponential(8)}</span>
+                            </div>
+                          </div>
+                          <div style={{ marginBottom: "0.75rem" }}>
+                            <div>P(X | Jagung) = P(V1|Jagung) × ... × P(V8|Jagung)</div>
+                            <div style={{ paddingLeft: "0.75rem", color: "hsl(var(--text-muted))", fontSize: "0.72rem", whiteSpace: "normal" }}>
+                              = {clsJagung.features.map(f => f.likelihood.toFixed(4)).join(" × ")}
+                            </div>
+                            <div style={{ paddingLeft: "0.75rem" }}>
+                              = <span style={{ color: "hsl(var(--accent))" }}>{clsJagung.likelihood_product.toExponential(8)}</span>
+                            </div>
+                          </div>
+                          <div>
+                            <div>P(X | Kopi) = P(V1|Kopi) × ... × P(V8|Kopi)</div>
+                            <div style={{ paddingLeft: "0.75rem", color: "hsl(var(--text-muted))", fontSize: "0.72rem", whiteSpace: "normal" }}>
+                              = {clsKopi.features.map(f => f.likelihood.toFixed(4)).join(" × ")}
+                            </div>
+                            <div style={{ paddingLeft: "0.75rem" }}>
+                              = <span style={{ color: "hsl(var(--danger))" }}>{clsKopi.likelihood_product.toExponential(8)}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tahap IV: Mengalikan Likelihood dengan Probabilitas Prior */}
+                      <div style={{
+                        background: "#ffffff",
+                        border: "1px solid hsl(var(--card-border))",
+                        borderRadius: "16px",
+                        padding: "1.5rem 1.75rem",
+                        boxShadow: "var(--shadow-sm)"
+                      }}>
+                        <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
+                          Tahap IV: Mengalikan Likelihood dengan Probabilitas Prior P(X|Ci) × P(Ci)
+                        </h4>
+                        <div style={{ fontFamily: "monospace", fontSize: "0.82rem", color: "hsl(var(--text-main))", lineHeight: "1.7", fontWeight: "600" }}>
+                          <div style={{ marginBottom: "0.75rem" }}>
+                            <div>Score(Padi) = P(Padi) × P(x|Padi)</div>
+                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
+                              = {clsPadi.prior.toFixed(8)} × {clsPadi.likelihood_product.toExponential(8)}
+                            </div>
+                            <div style={{ paddingLeft: "1rem" }}>
+                              = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.numerator.toExponential(8)}</span>
+                            </div>
+                          </div>
+                          <div style={{ marginBottom: "0.75rem" }}>
+                            <div>Score(Jagung) = P(Jagung) × P(x|Jagung)</div>
+                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
+                              = {clsJagung.prior.toFixed(8)} × {clsJagung.likelihood_product.toExponential(8)}
+                            </div>
+                            <div style={{ paddingLeft: "1rem" }}>
+                              = <span style={{ color: "hsl(var(--accent))" }}>{clsJagung.numerator.toExponential(8)}</span>
+                            </div>
+                          </div>
+                          <div>
+                            <div>Score(Kopi) = P(Kopi) × P(x|Kopi)</div>
+                            <div style={{ paddingLeft: "1rem", color: "hsl(var(--text-muted))", fontSize: "0.78rem" }}>
+                              = {clsKopi.prior.toFixed(8)} × {clsKopi.likelihood_product.toExponential(8)}
+                            </div>
+                            <div style={{ paddingLeft: "1rem" }}>
+                              = <span style={{ color: "hsl(var(--danger))" }}>{clsKopi.numerator.toExponential(8)}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Tahap V: Hasil Normalisasi Keputusan Bayes (%) */}
                     <div style={{
                       background: "#ffffff",
                       border: "1px solid hsl(var(--card-border))",
@@ -2354,7 +2339,7 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    {/* Row 4: Narasi Langkah Perhitungan (Step-by-step) */}
+                    {/* Narasi Langkah Perhitungan (Step-by-step) */}
                     <div style={{
                       background: "#ffffff",
                       border: "1px solid hsl(var(--card-border))",
@@ -2364,7 +2349,7 @@ export default function AdminDashboard() {
                       marginTop: "2rem"
                     }}>
                       <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.5rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
-                        5. Narasi Langkah Perhitungan (Tahap demi Tahap)
+                        Narasi Langkah Perhitungan (Tahap demi Tahap)
                       </h4>
                       <div style={{ 
                         fontFamily: "monospace", 
