@@ -160,20 +160,16 @@ def main():
     X = df[features]
     y = df["label"]
     
-    # Split train-test dengan stratify agar seimbang
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-    
-    # Scaling Fitur (Meskipun data kategorikal, scaler tetap dilatih untuk keselarasan pipeline)
+    # Latih model pada seluruh 100% dataset (45 data)
     scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    scaler.fit(X)
     
     # 2. Train Model Naive Bayes dengan Laplace Smoothing (alpha=1.0)
     nb = CategoricalNB(alpha=1.0)
-    nb.fit(X_train, y_train)
-    nb_preds = nb.predict(X_test)
-    nb_acc = accuracy_score(y_test, nb_preds)
-    print(f"Akurasi Model Naive Bayes: {nb_acc * 100:.2f}%")
+    nb.fit(X, y)
+    nb_preds = nb.predict(X)
+    nb_acc = accuracy_score(y, nb_preds)
+    print(f"Akurasi Model Naive Bayes (Latih): {nb_acc * 100:.2f}%")
     
     # Simpan model, scaler, dan metadata dalam satu file pickle
     model_data = {

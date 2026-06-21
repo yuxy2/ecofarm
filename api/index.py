@@ -1075,22 +1075,13 @@ def add_to_training(request: AddToTrainingRequest, current_user: dict = Depends(
         from sklearn.naive_bayes import CategoricalNB
         from sklearn.metrics import accuracy_score
         
-        class_counts = y.value_counts()
-        can_stratify = all(count >= 2 for count in class_counts) and len(class_counts) > 1
-        
-        if can_stratify:
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-        else:
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-            
         scaler = StandardScaler()
-        X_train_scaled = scaler.fit_transform(X_train)
-        X_test_scaled = scaler.transform(X_test)
+        scaler.fit(X)
         
         nb = CategoricalNB(alpha=1.0)
-        nb.fit(X_train, y_train)
-        nb_preds = nb.predict(X_test)
-        nb_acc = accuracy_score(y_test, nb_preds)
+        nb.fit(X, y)
+        nb_preds = nb.predict(X)
+        nb_acc = accuracy_score(y, nb_preds)
         
         # Save model pickle
         model_data_new = {
