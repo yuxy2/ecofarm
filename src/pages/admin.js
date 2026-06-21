@@ -2104,7 +2104,7 @@ export default function AdminDashboard() {
                         boxShadow: "var(--shadow-sm)"
                       }}>
                         <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
-                          1. Prior Probabilities P(C)
+                          1. Probabilitas Prior P(C)
                         </h4>
                         <div style={{ fontFamily: "monospace", fontSize: "0.95rem", color: "hsl(var(--text-main))", lineHeight: "2.2", fontWeight: "600" }}>
                           <div>P(Padi) = {clsPadi.count} / {clsPadi.total_count} = <span style={{ color: "hsl(var(--secondary))" }}>{clsPadi.prior.toFixed(8)}</span></div>
@@ -2122,7 +2122,7 @@ export default function AdminDashboard() {
                         boxShadow: "var(--shadow-sm)"
                       }}>
                         <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.25rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
-                          3. Un-normalized Posterior Scores
+                          3. Skor Posterior Sebelum Normalisasi
                         </h4>
                         <div style={{ fontFamily: "monospace", fontSize: "0.82rem", color: "hsl(var(--text-main))", lineHeight: "1.7", fontWeight: "600" }}>
                           <div style={{ marginBottom: "0.75rem" }}>
@@ -2166,7 +2166,7 @@ export default function AdminDashboard() {
                       boxShadow: "var(--shadow-sm)"
                     }}>
                       <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.5rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
-                        2. Conditional Probabilities (Likelihoods) P(x_i | C)
+                        2. Probabilitas Bersyarat (Likelihood) P(x_i | C)
                       </h4>
                       <div style={{
                         display: "grid",
@@ -2316,7 +2316,7 @@ export default function AdminDashboard() {
                       marginTop: "2rem"
                     }}>
                       <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.5rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
-                        5. Narasi Langkah Perhitungan (Step-by-Step)
+                        5. Narasi Langkah Perhitungan (Tahap demi Tahap)
                       </h4>
                       <div style={{ 
                         fontFamily: "monospace", 
