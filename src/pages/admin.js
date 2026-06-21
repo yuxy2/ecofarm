@@ -2066,14 +2066,14 @@ export default function AdminDashboard() {
                   irigasi: "Irr"
                 };
                 const featureDisplayNames = {
-                  N: "Nitrogen",
-                  P: "Fosfor",
-                  K: "Kalium",
-                  ph: "pH Tanah",
-                  temperature: "Suhu",
-                  humidity: "Kelembaban",
-                  rainfall: "Curah Hujan",
-                  irigasi: "Irigasi"
+                  N: "Nitrogen (N)",
+                  P: "Fosfor (P)",
+                  K: "Kalium (K)",
+                  ph: "pH Tanah (pH)",
+                  temperature: "Suhu (Temp)",
+                  humidity: "Kelembaban (Hum)",
+                  rainfall: "Curah Hujan (Rain)",
+                  irigasi: "Irigasi (Irr)"
                 };
                 
                 const getFeatLikelihood = (cls, featName) => {
