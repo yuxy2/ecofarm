@@ -931,6 +931,10 @@ def calculate_nb(
                 
                 pdf_val = math.exp(nb_model.feature_log_prob_[f_idx][c_idx][val_idx])
                 
+                feat_count = float(nb_model.category_count_[f_idx][c_idx][val_idx])
+                k_val = int(nb_model.n_categories_[f_idx])
+                class_cnt = float(nb_model.class_count_[c_idx])
+                
                 feature_likelihoods.append({
                     "feature": f_name,
                     "scaled_value": float(val),
@@ -938,7 +942,10 @@ def calculate_nb(
                     "variance": 0.0,
                     "pdf_exponent": 0.0,
                     "pdf_denominator": 1.0,
-                    "likelihood": pdf_val
+                    "likelihood": pdf_val,
+                    "count": feat_count,
+                    "k": k_val,
+                    "class_count": class_cnt
                 })
                 likelihood_prod *= pdf_val
                 

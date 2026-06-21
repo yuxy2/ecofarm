@@ -3,6 +3,113 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+const generateCalculationNarrative = (details) => {
+  if (!details) return "";
+  
+  const inputs = details.inputs || {};
+  const classes = details.classes || [];
+  
+  // Find classes
+  const clsPadi = classes.find(c => c.class_name === "Padi") || { count: 0, total_count: 0, prior: 0, numerator: 0, posterior: 0, features: [] };
+  const clsJagung = classes.find(c => c.class_name === "Jagung") || { count: 0, total_count: 0, prior: 0, numerator: 0, posterior: 0, features: [] };
+  const clsKopi = classes.find(c => c.class_name === "Kopi") || { count: 0, total_count: 0, prior: 0, numerator: 0, posterior: 0, features: [] };
+  
+  const featureDisplayNames = {
+    N: "N (Nitrogen)",
+    P: "P (Fosfor)",
+    K: "K (Kalium)",
+    ph: "pH Tanah",
+    temperature: "Suhu",
+    humidity: "Kelembaban",
+    rainfall: "Curah Hujan",
+    irigasi: "Irigasi"
+  };
+
+  const featureKeys = ["N", "P", "K", "ph", "temperature", "humidity", "rainfall", "irigasi"];
+  
+  let text = `Perhitungan Naive Bayes Classification Dengan Laplace Smoothing\n`;
+  text += `Diketahui dari data input:\n`;
+  text += `• ` + featureKeys.map((f, i) => `V${i+1} (${f}) = "${inputs[f] || 0}"`).join(", ") + `\n\n`;
+  
+  text += `Prediksilah apakah dengan data di atas, tanaman yang sesuai untuk ditanam adalah Padi, Jagung, atau Kopi?\n\n`;
+  
+  text += `Tahap I : Menghitung Jumlah Class\n`;
+  text += `P(Ci) merupakan prior probability untuk setiap class berdasar data:\n`;
+  text += `• P(Label="Padi") = ${clsPadi.count}/${clsPadi.total_count} = ${clsPadi.prior.toFixed(4)}\n`;
+  text += `• P(Label="Jagung") = ${clsJagung.count}/${clsJagung.total_count} = ${clsJagung.prior.toFixed(4)}\n`;
+  text += `• P(Label="Kopi") = ${clsKopi.count}/${clsKopi.total_count} = ${clsKopi.prior.toFixed(4)}\n\n`;
+  
+  text += `Tahap II: Menghitung P(X|Ci) dengan Laplace Smoothing\n`;
+  text += `Formula: (jumlah + 1) / (n_kelas + k) — di mana k = jumlah nilai unik variabel tersebut\n\n`;
+  
+  featureKeys.forEach((f, fIdx) => {
+    const val = inputs[f] || 0;
+    
+    const getFeatInfo = (cls) => {
+      const fObj = cls.features.find(feat => feat.feature === f);
+      return fObj ? { count: fObj.count || 0, k: fObj.k || 3, class_count: fObj.class_count || 10, likelihood: fObj.likelihood } : { count: 0, k: 3, class_count: 10, likelihood: 0 };
+    };
+    
+    const padiInfo = getFeatInfo(clsPadi);
+    const jagungInfo = getFeatInfo(clsJagung);
+    const kopiInfo = getFeatInfo(clsKopi);
+    
+    const k = padiInfo.k; 
+    
+    text += `V${fIdx+1} (${featureDisplayNames[f]}) = ${val} (k=${k})\n`;
+    text += `• P(V${fIdx+1}=${val} | Padi) = (${padiInfo.count}+1)/(${padiInfo.class_count}+${k}) = ${(padiInfo.count+1)}/${(padiInfo.class_count+k)} = ${padiInfo.likelihood.toFixed(4)}\n`;
+    text += `• P(V${fIdx+1}=${val} | Jagung) = (${jagungInfo.count}+1)/(${jagungInfo.class_count}+${k}) = ${(jagungInfo.count+1)}/${(jagungInfo.class_count+k)} = ${jagungInfo.likelihood.toFixed(4)}\n`;
+    text += `• P(V${fIdx+1}=${val} | Kopi) = (${kopiInfo.count}+1)/(${kopiInfo.class_count}+${k}) = ${(kopiInfo.count+1)}/${(kopiInfo.class_count+k)} = ${kopiInfo.likelihood.toFixed(4)}\n`;
+  });
+  
+  text += `\nTahap III: Kalikan Semua Variabel\n`;
+  
+  const padiLList = featureKeys.map(f => {
+    const fObj = clsPadi.features.find(feat => feat.feature === f);
+    return fObj ? fObj.likelihood : 0;
+  });
+  const jagungLList = featureKeys.map(f => {
+    const fObj = clsJagung.features.find(feat => feat.feature === f);
+    return fObj ? fObj.likelihood : 0;
+  });
+  const kopiLList = featureKeys.map(f => {
+    const fObj = clsKopi.features.find(feat => feat.feature === f);
+    return fObj ? fObj.likelihood : 0;
+  });
+  
+  const padiLProd = clsPadi.likelihood_product;
+  const jagungLProd = clsJagung.likelihood_product;
+  const kopiLProd = clsKopi.likelihood_product;
+  
+  text += `• P(X | Padi) = ${padiLList.map(l => l.toFixed(4)).join(" × ")} = ${padiLProd.toExponential(10)}\n`;
+  text += `• P(X | Jagung) = ${jagungLList.map(l => l.toFixed(4)).join(" × ")} = ${jagungLProd.toExponential(10)}\n`;
+  text += `• P(X | Kopi) = ${kopiLList.map(l => l.toFixed(4)).join(" × ")} = ${kopiLProd.toExponential(10)}\n\n`;
+  
+  text += `Tahap IV: Kalikan dengan Prior Probability\n`;
+  
+  const padiPosteriorUnnorm = clsPadi.numerator;
+  const jagungPosteriorUnnorm = clsJagung.numerator;
+  const kopiPosteriorUnnorm = clsKopi.numerator;
+  
+  text += `• P(X|Padi) × P(Padi) = ${padiLProd.toExponential(6)} × ${clsPadi.prior.toFixed(4)} = ${padiPosteriorUnnorm.toExponential(10)}\n`;
+  text += `• P(X|Jagung) × P(Jagung) = ${jagungLProd.toExponential(6)} × ${clsJagung.prior.toFixed(4)} = ${jagungPosteriorUnnorm.toExponential(10)}\n`;
+  text += `• P(X|Kopi) × P(Kopi) = ${kopiLProd.toExponential(6)} × ${clsKopi.prior.toFixed(4)} = ${kopiPosteriorUnnorm.toExponential(10)}\n\n`;
+  
+  text += `Tahap V: Normalisasi untuk Mendapatkan Probabilitas Posterior (%)\n`;
+  text += `• Posterior(Padi) = ${padiPosteriorUnnorm.toExponential(6)} / (${padiPosteriorUnnorm.toExponential(6)} + ${jagungPosteriorUnnorm.toExponential(6)} + ${kopiPosteriorUnnorm.toExponential(6)}) = ${(clsPadi.posterior * 100).toFixed(2)}%\n`;
+  text += `• Posterior(Jagung) = ${jagungPosteriorUnnorm.toExponential(6)} / (${padiPosteriorUnnorm.toExponential(6)} + ${jagungPosteriorUnnorm.toExponential(6)} + ${kopiPosteriorUnnorm.toExponential(6)}) = ${(clsJagung.posterior * 100).toFixed(2)}%\n`;
+  text += `• Posterior(Kopi) = ${kopiPosteriorUnnorm.toExponential(6)} / (${padiPosteriorUnnorm.toExponential(6)} + ${jagungPosteriorUnnorm.toExponential(6)} + ${kopiPosteriorUnnorm.toExponential(6)}) = ${(clsKopi.posterior * 100).toFixed(2)}%\n\n`;
+  
+  const winner = details.prediction;
+  const winnerDisplay = winner === "Padi" ? "PADI" : (winner === "Jagung" ? "JAGUNG" : "KOPI");
+  const winnerScore = winner === "Padi" ? padiPosteriorUnnorm : (winner === "Jagung" ? jagungPosteriorUnnorm : kopiPosteriorUnnorm);
+  
+  text += `Kesimpulan:\n`;
+  text += `Karena nilai posterior ${winnerDisplay} (${winnerScore.toExponential(10)}) merupakan nilai posterior tertinggi dibandingkan dengan kelas lainnya, maka data input tersebut diprediksi sebagai rekomendasi tanaman **${winnerDisplay}** menurut metode Naive Bayes dengan Laplace Smoothing.`;
+  
+  return text;
+};
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("dataset"); // dataset, pemakai
@@ -2162,6 +2269,36 @@ export default function AdminDashboard() {
                           </div>
                         </div>
                         
+                      </div>
+                    </div>
+
+                    {/* Row 4: Narasi Langkah Perhitungan (Step-by-step) */}
+                    <div style={{
+                      background: "#ffffff",
+                      border: "1px solid hsl(var(--card-border))",
+                      borderRadius: "16px",
+                      padding: "1.75rem",
+                      boxShadow: "var(--shadow-sm)",
+                      marginTop: "2rem"
+                    }}>
+                      <h4 style={{ fontSize: "1.1rem", fontWeight: "800", color: "hsl(var(--text-dark))", margin: "0 0 1.5rem 0", borderBottom: "1px solid hsl(var(--card-border))", paddingBottom: "0.75rem", fontFamily: "var(--font-display)" }}>
+                        5. Narasi Langkah Perhitungan (Step-by-Step)
+                      </h4>
+                      <div style={{ 
+                        fontFamily: "monospace", 
+                        fontSize: "0.9rem", 
+                        color: "hsl(var(--text-main))", 
+                        lineHeight: "1.75", 
+                        background: "hsl(var(--bg-color))",
+                        padding: "1.5rem",
+                        borderRadius: "12px",
+                        border: "1px solid hsl(var(--card-border))",
+                        maxHeight: "350px",
+                        overflowY: "auto",
+                        whiteSpace: "pre-wrap",
+                        textAlign: "left"
+                      }}>
+                        {generateCalculationNarrative(calculationDetails)}
                       </div>
                     </div>
                     
