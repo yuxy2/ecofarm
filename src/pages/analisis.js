@@ -45,6 +45,7 @@ export default function Analisis() {
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("user");
   const [isReady, setIsReady] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -314,37 +315,58 @@ export default function Analisis() {
             <img src="/logoecofarm.jpeg" alt="EcoFarming Logo" style={{ height: "42px", width: "auto", borderRadius: "8px" }} />
             <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: "hsl(var(--text-dark))" }}>EcoFarming</span>
           </Link>
-          <ul className="nav-menu" id="nav-menu">
+
+          {/* Backdrop for mobile drawer */}
+          <div className={`nav-backdrop ${isMenuOpen ? "open" : ""}`} onClick={() => setIsMenuOpen(false)}></div>
+
+          {/* Hamburger Toggle Button */}
+          <button className="nav-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
+            <span className={`hamburger ${isMenuOpen ? "open" : ""}`}></span>
+          </button>
+
+          <ul className={`nav-menu ${isMenuOpen ? "open" : ""}`} id="nav-menu">
             <li>
-              <Link href="/" className="nav-item-link" id="link-beranda">
+              <Link href="/" className="nav-item-link" id="link-beranda" onClick={() => setIsMenuOpen(false)}>
                 Beranda
               </Link>
             </li>
             {role === "admin" && (
               <li>
-                <Link href="/admin" className="nav-item-link" id="link-admin" style={{ color: "hsl(var(--accent))", fontWeight: "700" }}>
+                <Link href="/admin" className="nav-item-link" id="link-admin" onClick={() => setIsMenuOpen(false)} style={{ color: "hsl(var(--accent))", fontWeight: "700" }}>
                   ⚙️ Dashboard Admin
                 </Link>
               </li>
             )}
             {username && (
-              <li style={{ fontSize: "0.95rem", fontWeight: "600", color: "hsl(var(--text-muted))" }}>
-                👤 {username}
-              </li>
-            )}
-            {token && (
-              <li>
-                <button onClick={handleLogoutDirectly} style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "hsl(var(--danger))",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                  fontSize: "0.95rem",
-                  padding: 0
-                }} id="nav-btn-logout">
-                  Keluar
-                </button>
+              <li className="user-badge-nav" style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                background: "hsl(var(--bg-color))",
+                border: "1px solid hsl(var(--card-border))",
+                padding: "0.35rem 0.75rem",
+                borderRadius: "20px",
+                fontSize: "0.9rem",
+                fontWeight: "600",
+                whiteSpace: "nowrap"
+              }}>
+                <span style={{ color: "hsl(var(--text-muted))" }}>👤 {username}</span>
+                {token && (
+                  <>
+                    <span style={{ color: "hsl(var(--card-border))" }}>|</span>
+                    <button onClick={() => { handleLogoutDirectly(); setIsMenuOpen(false); }} style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "hsl(var(--danger))",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                      fontSize: "0.85rem",
+                      padding: 0
+                    }} id="nav-btn-logout">
+                      Keluar
+                    </button>
+                  </>
+                )}
               </li>
             )}
           </ul>

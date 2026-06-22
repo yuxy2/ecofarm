@@ -8,6 +8,7 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [nbAccuracy, setNbAccuracy] = useState("100.00%");
   const [nbAccuracyNum, setNbAccuracyNum] = useState(100.0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("ecofarming_token");
@@ -120,32 +121,51 @@ export default function Home() {
             <img src="/logoecofarm.jpeg" alt="EcoFarming Logo" style={{ height: "42px", width: "auto", borderRadius: "8px" }} />
             <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: "hsl(var(--text-dark))" }}>EcoFarming</span>
           </Link>
-          <ul className="nav-menu" id="nav-menu">
-            <li><a href="#fitur" className="nav-item-link" id="link-fitur">Tentang Kami</a></li>
-            <li><a href="#tentang-sistem" className="nav-item-link" id="link-sistem">Tentang Sistem</a></li>
-            <li><a href="#algoritma" className="nav-item-link" id="link-algo">Algoritma AI</a></li>
-            <li><a href="#petunjuk" className="nav-item-link" id="link-petunjuk">Petunjuk</a></li>
-            <li><a href="#tim" className="nav-item-link" id="link-tim">Tim Kami</a></li>
+
+          {/* Backdrop for mobile drawer */}
+          <div className={`nav-backdrop ${isMenuOpen ? "open" : ""}`} onClick={() => setIsMenuOpen(false)}></div>
+
+          {/* Hamburger Toggle Button */}
+          <button className="nav-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
+            <span className={`hamburger ${isMenuOpen ? "open" : ""}`}></span>
+          </button>
+
+          <ul className={`nav-menu ${isMenuOpen ? "open" : ""}`} id="nav-menu">
+            <li><a href="#fitur" className="nav-item-link" id="link-fitur" onClick={() => setIsMenuOpen(false)}>Tentang Kami</a></li>
+            <li><a href="#tentang-sistem" className="nav-item-link" id="link-sistem" onClick={() => setIsMenuOpen(false)}>Tentang Sistem</a></li>
+            <li><a href="#algoritma" className="nav-item-link" id="link-algo" onClick={() => setIsMenuOpen(false)}>Algoritma AI</a></li>
+            <li><a href="#petunjuk" className="nav-item-link" id="link-petunjuk" onClick={() => setIsMenuOpen(false)}>Petunjuk</a></li>
+            <li><a href="#tim" className="nav-item-link" id="link-tim" onClick={() => setIsMenuOpen(false)}>Tim Kami</a></li>
             {isLoggedIn ? (
               <>
                 {role === "admin" && (
                   <li>
-                    <Link href="/admin" className="nav-item-link" id="link-admin" style={{ color: "hsl(var(--accent))", fontWeight: "700" }}>
+                    <Link href="/admin" className="nav-item-link" id="link-admin" onClick={() => setIsMenuOpen(false)} style={{ color: "hsl(var(--accent))", fontWeight: "700" }}>
                       ⚙️ Dashboard Admin
                     </Link>
                   </li>
                 )}
-                <li style={{ fontSize: "0.95rem", fontWeight: "600", color: "hsl(var(--text-muted))" }}>
-                  👤 {username}
-                </li>
-                <li>
-                  <button onClick={handleLogout} style={{
+                <li className="user-badge-nav" style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  background: "hsl(var(--bg-color))",
+                  border: "1px solid hsl(var(--card-border))",
+                  padding: "0.35rem 0.75rem",
+                  borderRadius: "20px",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                  whiteSpace: "nowrap"
+                }}>
+                  <span style={{ color: "hsl(var(--text-muted))" }}>👤 {username}</span>
+                  <span style={{ color: "hsl(var(--card-border))" }}>|</span>
+                  <button onClick={() => { handleLogout(); setIsMenuOpen(false); }} style={{
                     background: "transparent",
                     border: "none",
                     color: "hsl(var(--danger))",
                     fontWeight: "600",
                     cursor: "pointer",
-                    fontSize: "0.95rem",
+                    fontSize: "0.85rem",
                     padding: 0
                   }} id="nav-btn-logout">
                     Keluar
@@ -154,13 +174,13 @@ export default function Home() {
               </>
             ) : (
               <li>
-                <Link href="/login" className="nav-item-link" id="link-login">
+                <Link href="/login" className="nav-item-link" id="link-login" onClick={() => setIsMenuOpen(false)}>
                   Masuk
                 </Link>
               </li>
             )}
             <li>
-              <Link href="/analisis" className="btn-nav" id="btn-start-nav" style={{ background: "hsl(var(--accent))", color: "hsl(var(--text-dark))", border: "none" }}>
+              <Link href="/analisis" className="btn-nav" id="btn-start-nav" onClick={() => setIsMenuOpen(false)} style={{ background: "hsl(var(--accent))", color: "hsl(var(--text-dark))", border: "none" }}>
                 Mulai Analisis
               </Link>
             </li>
@@ -931,7 +951,7 @@ export default function Home() {
                 <p style={{ lineHeight: "1.7", maxWidth: "280px" }}>
                   Mata Kuliah Kecerdasan Buatan<br/>
                   Program Studi Informatika<br/>
-                  Fakultas Teknologi Informasi<br/>
+                  Fakultas Teknik<br/>
                   <strong>Universitas Janabadra Yogyakarta</strong>
                 </p>
               </div>
