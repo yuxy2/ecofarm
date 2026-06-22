@@ -130,61 +130,66 @@ export default function Home() {
             <span className={`hamburger ${isMenuOpen ? "open" : ""}`}></span>
           </button>
 
-          <ul className={`nav-menu ${isMenuOpen ? "open" : ""}`} id="nav-menu">
-            <li><a href="#fitur" className="nav-item-link" id="link-fitur" onClick={() => setIsMenuOpen(false)}>Tentang Kami</a></li>
-            <li><a href="#tentang-sistem" className="nav-item-link" id="link-sistem" onClick={() => setIsMenuOpen(false)}>Tentang Sistem</a></li>
-            <li><a href="#algoritma" className="nav-item-link" id="link-algo" onClick={() => setIsMenuOpen(false)}>Algoritma AI</a></li>
-            <li><a href="#petunjuk" className="nav-item-link" id="link-petunjuk" onClick={() => setIsMenuOpen(false)}>Petunjuk</a></li>
-            <li><a href="#tim" className="nav-item-link" id="link-tim" onClick={() => setIsMenuOpen(false)}>Tim Kami</a></li>
-            {isLoggedIn ? (
-              <>
-                {role === "admin" && (
-                  <li>
-                    <Link href="/admin" className="nav-item-link" id="link-admin" onClick={() => setIsMenuOpen(false)} style={{ color: "hsl(var(--accent))", fontWeight: "700" }}>
-                      ⚙️ Dashboard Admin
-                    </Link>
-                  </li>
-                )}
-                <li className="user-badge-nav" style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  background: "hsl(var(--bg-color))",
-                  border: "1px solid hsl(var(--card-border))",
-                  padding: "0.35rem 0.75rem",
-                  borderRadius: "20px",
-                  fontSize: "0.9rem",
-                  fontWeight: "600",
-                  whiteSpace: "nowrap"
-                }}>
-                  <span style={{ color: "hsl(var(--text-muted))" }}>👤 {username}</span>
-                  <span style={{ color: "hsl(var(--card-border))" }}>|</span>
-                  <button onClick={() => { handleLogout(); setIsMenuOpen(false); }} style={{
-                    background: "transparent",
-                    border: "none",
-                    color: "hsl(var(--danger))",
+          {/* Desktop & Mobile Navigation Wrapper */}
+          <div className={`nav-menu-wrapper ${isMenuOpen ? "open" : ""}`} id="nav-menu-wrapper">
+            <ul className="nav-links">
+              <li><a href="#fitur" className="nav-item-link" id="link-fitur" onClick={() => setIsMenuOpen(false)}>Tentang Kami</a></li>
+              <li><a href="#tentang-sistem" className="nav-item-link" id="link-sistem" onClick={() => setIsMenuOpen(false)}>Tentang Sistem</a></li>
+              <li><a href="#algoritma" className="nav-item-link" id="link-algo" onClick={() => setIsMenuOpen(false)}>Algoritma AI</a></li>
+              <li><a href="#petunjuk" className="nav-item-link" id="link-petunjuk" onClick={() => setIsMenuOpen(false)}>Petunjuk</a></li>
+              <li><a href="#tim" className="nav-item-link" id="link-tim" onClick={() => setIsMenuOpen(false)}>Tim Kami</a></li>
+            </ul>
+            <ul className="nav-actions">
+              {isLoggedIn ? (
+                <>
+                  {role === "admin" && (
+                    <li>
+                      <Link href="/admin" className="nav-item-link" id="link-admin" onClick={() => setIsMenuOpen(false)} style={{ color: "hsl(var(--accent))", fontWeight: "700" }}>
+                        ⚙️ Dashboard Admin
+                      </Link>
+                    </li>
+                  )}
+                  <li className="user-badge-nav" style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    background: "hsl(var(--bg-color))",
+                    border: "1px solid hsl(var(--card-border))",
+                    padding: "0.35rem 0.75rem",
+                    borderRadius: "20px",
+                    fontSize: "0.9rem",
                     fontWeight: "600",
-                    cursor: "pointer",
-                    fontSize: "0.85rem",
-                    padding: 0
-                  }} id="nav-btn-logout">
-                    Keluar
-                  </button>
+                    whiteSpace: "nowrap"
+                  }}>
+                    <span style={{ color: "hsl(var(--text-muted))" }}>👤 {username}</span>
+                    <span style={{ color: "hsl(var(--card-border))" }}>|</span>
+                    <button onClick={() => { handleLogout(); setIsMenuOpen(false); }} style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "hsl(var(--danger))",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                      fontSize: "0.85rem",
+                      padding: 0
+                    }} id="nav-btn-logout">
+                      Keluar
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <Link href="/login" className="nav-item-link" id="link-login" onClick={() => setIsMenuOpen(false)}>
+                    Masuk
+                  </Link>
                 </li>
-              </>
-            ) : (
+              )}
               <li>
-                <Link href="/login" className="nav-item-link" id="link-login" onClick={() => setIsMenuOpen(false)}>
-                  Masuk
+                <Link href="/analisis" className="btn-nav" id="btn-start-nav" onClick={() => setIsMenuOpen(false)} style={{ background: "hsl(var(--accent))", color: "hsl(var(--text-dark))", border: "none" }}>
+                  Mulai Analisis
                 </Link>
               </li>
-            )}
-            <li>
-              <Link href="/analisis" className="btn-nav" id="btn-start-nav" onClick={() => setIsMenuOpen(false)} style={{ background: "hsl(var(--accent))", color: "hsl(var(--text-dark))", border: "none" }}>
-                Mulai Analisis
-              </Link>
-            </li>
-          </ul>
+            </ul>
+          </div>
         </div>
       </nav>
 

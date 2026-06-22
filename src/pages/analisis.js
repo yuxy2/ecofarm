@@ -324,52 +324,57 @@ export default function Analisis() {
             <span className={`hamburger ${isMenuOpen ? "open" : ""}`}></span>
           </button>
 
-          <ul className={`nav-menu ${isMenuOpen ? "open" : ""}`} id="nav-menu">
-            <li>
-              <Link href="/" className="nav-item-link" id="link-beranda" onClick={() => setIsMenuOpen(false)}>
-                Beranda
-              </Link>
-            </li>
-            {role === "admin" && (
+          {/* Desktop & Mobile Navigation Wrapper */}
+          <div className={`nav-menu-wrapper ${isMenuOpen ? "open" : ""}`} id="nav-menu-wrapper">
+            <ul className="nav-links">
               <li>
-                <Link href="/admin" className="nav-item-link" id="link-admin" onClick={() => setIsMenuOpen(false)} style={{ color: "hsl(var(--accent))", fontWeight: "700" }}>
-                  ⚙️ Dashboard Admin
+                <Link href="/" className="nav-item-link" id="link-beranda" onClick={() => setIsMenuOpen(false)}>
+                  Beranda
                 </Link>
               </li>
-            )}
-            {username && (
-              <li className="user-badge-nav" style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.75rem",
-                background: "hsl(var(--bg-color))",
-                border: "1px solid hsl(var(--card-border))",
-                padding: "0.35rem 0.75rem",
-                borderRadius: "20px",
-                fontSize: "0.9rem",
-                fontWeight: "600",
-                whiteSpace: "nowrap"
-              }}>
-                <span style={{ color: "hsl(var(--text-muted))" }}>👤 {username}</span>
-                {token && (
-                  <>
-                    <span style={{ color: "hsl(var(--card-border))" }}>|</span>
-                    <button onClick={() => { handleLogoutDirectly(); setIsMenuOpen(false); }} style={{
-                      background: "transparent",
-                      border: "none",
-                      color: "hsl(var(--danger))",
-                      fontWeight: "600",
-                      cursor: "pointer",
-                      fontSize: "0.85rem",
-                      padding: 0
-                    }} id="nav-btn-logout">
-                      Keluar
-                    </button>
-                  </>
-                )}
-              </li>
-            )}
-          </ul>
+            </ul>
+            <ul className="nav-actions">
+              {role === "admin" && (
+                <li>
+                  <Link href="/admin" className="nav-item-link" id="link-admin" onClick={() => setIsMenuOpen(false)} style={{ color: "hsl(var(--accent))", fontWeight: "700" }}>
+                    ⚙️ Dashboard Admin
+                  </Link>
+                </li>
+              )}
+              {username && (
+                <li className="user-badge-nav" style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  background: "hsl(var(--bg-color))",
+                  border: "1px solid hsl(var(--card-border))",
+                  padding: "0.35rem 0.75rem",
+                  borderRadius: "20px",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                  whiteSpace: "nowrap"
+                }}>
+                  <span style={{ color: "hsl(var(--text-muted))" }}>👤 {username}</span>
+                  {token && (
+                    <>
+                      <span style={{ color: "hsl(var(--card-border))" }}>|</span>
+                      <button onClick={() => { handleLogoutDirectly(); setIsMenuOpen(false); }} style={{
+                        background: "transparent",
+                        border: "none",
+                        color: "hsl(var(--danger))",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                        fontSize: "0.85rem",
+                        padding: 0
+                      }} id="nav-btn-logout">
+                        Keluar
+                      </button>
+                    </>
+                  )}
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
       </nav>
 

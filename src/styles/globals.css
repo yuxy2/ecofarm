@@ -544,17 +544,36 @@ h1, h2, h3, h4, h5, h6 {
   animation: float 3s ease-in-out infinite;
 }
 
-.nav-menu {
+.nav-menu-wrapper {
   display: flex;
-  gap: 1.25rem;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 3rem; /* Guaranteed gap from logo */
+  transition: var(--transition);
+}
+
+.nav-links,
+.nav-actions {
+  display: flex;
   align-items: center;
   list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links {
+  gap: 1.75rem;
+}
+
+.nav-actions {
+  gap: 1.25rem;
 }
 
 .nav-item-link {
   text-decoration: none;
   color: hsl(var(--text-muted));
-  font-size: 0.95rem;
+  font-size: 0.92rem; /* Slightly smaller for premium look */
   font-weight: 600;
   transition: var(--transition);
   white-space: nowrap;
@@ -665,12 +684,12 @@ h1, h2, h3, h4, h5, h6 {
   transform: rotate(-45deg);
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 1200px) {
   .nav-toggle {
     display: block;
   }
 
-  .nav-menu {
+  .nav-menu-wrapper {
     position: fixed;
     top: 0;
     right: -100%;
@@ -680,22 +699,33 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: -5px 0 25px rgba(0, 0, 0, 0.05);
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-start;
     padding: 6.5rem 2rem 2.5rem 2rem;
-    gap: 1.5rem;
+    gap: 2rem;
     transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 1050;
     overflow-y: auto;
   }
 
-  .nav-menu.open {
+  .nav-menu-wrapper.open {
     right: 0;
   }
 
-  .nav-menu li {
+  .nav-links,
+  .nav-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1.25rem;
+  }
+
+  .nav-links li,
+  .nav-actions li {
     width: 100%;
   }
 
-  .nav-menu .nav-item-link {
+  .nav-links .nav-item-link,
+  .nav-actions .nav-item-link {
     display: block;
     width: 100%;
     padding: 0.5rem 0;
@@ -703,11 +733,12 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 1px solid hsl(var(--card-border));
   }
   
-  .nav-menu li:last-child .nav-item-link {
+  .nav-links li:last-child .nav-item-link,
+  .nav-actions li:last-child .nav-item-link {
     border-bottom: none;
   }
 
-  .nav-menu .btn-nav {
+  .nav-menu-wrapper .btn-nav {
     display: block;
     text-align: center;
     width: 100%;
