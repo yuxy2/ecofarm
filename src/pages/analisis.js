@@ -777,6 +777,114 @@ export default function Analisis() {
 
         </form>
 
+        {/* Section: Tentang Sistem */}
+        <section style={{
+          marginTop: "3rem",
+          padding: "2.5rem",
+          background: "#ffffff",
+          border: "1px solid hsl(var(--card-border))",
+          borderRadius: "16px",
+          boxShadow: "var(--shadow-sm)"
+        }} id="tentang-sistem" className="glass-panel">
+          <h2 style={{
+            fontSize: "1.85rem",
+            fontWeight: "800",
+            color: "hsl(var(--text-dark))",
+            marginBottom: "1.5rem",
+            fontFamily: "var(--font-display)",
+            textAlign: "center"
+          }}>
+            Tentang Sistem
+          </h2>
+          
+          <p style={{
+            fontSize: "0.95rem",
+            color: "hsl(var(--text-muted))",
+            lineHeight: "1.7",
+            marginBottom: "1.25rem"
+          }}>
+            Kegiatan budidaya pertanian seringkali menghadapi tantangan besar dalam menentukan kesesuaian lahan, khususnya dalam memilih komoditas tanaman yang paling optimal. Banyak petani yang mengabaikan ketidakseimbangan unsur hara tanah dan faktor iklim mikro lahan, padahal akumulasi penurunan unsur hara yang dibiarkan tanpa penanganan dapat berdampak serius bagi hasil panen dan menurunkan produktivitas pertanian secara berkepanjangan.
+          </p>
+
+          <p style={{
+            fontSize: "0.95rem",
+            color: "hsl(var(--text-muted))",
+            lineHeight: "1.7",
+            marginBottom: "1.5rem"
+          }}>
+            <strong>Sistem Rekomendasi Tanaman Presisi (EcoFarming)</strong> hadir sebagai instrumen keputusan awal untuk mengenali kecocokan lahan terhadap komoditas pertanian. Menggunakan algoritma klasifikasi probabilitas <strong>Naive Bayes dengan Laplace Smoothing</strong>, sistem ini memproses data hara tanah dan iklim secara cepat, objektif, dan presisi melalui delapan indikator utama:
+          </p>
+
+          <ul style={{
+            listStyleType: "none",
+            padding: 0,
+            margin: "0 0 1.5rem 0",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.75rem"
+          }}>
+            {[
+              { label: "Nitrogen (N)", desc: "Tingkat kandungan hara Nitrogen untuk mendukung pertumbuhan vegetatif tanaman (daun dan batang)." },
+              { label: "Fosfor (P)", desc: "Tingkat kandungan hara Fosfor untuk menunjang perkembangan akar, pembungaan, dan pembuahan." },
+              { label: "Kalium (K)", desc: "Tingkat kandungan hara Kalium untuk memperkokoh batang, ketahanan penyakit, dan kualitas hasil panen." },
+              { label: "Suhu", desc: "Temperatur rata-rata harian lingkungan yang mempengaruhi proses metabolisme dan fotosintesis tanaman." },
+              { label: "Kelembaban", desc: "Tingkat kelembaban udara sekitar yang memicu transpirasi air pada jaringan tanaman." },
+              { label: "pH Tanah", desc: "Kadar derajat keasaman atau kebasaan tanah yang menentukan kemudahan akar dalam menyerap unsur hara." },
+              { label: "Curah Hujan", desc: "Intensitas curah hujan bulanan yang menjadi penyedia suplai air alami bagi lahan pertanian." },
+              { label: "Irigasi", desc: "Ketersediaan saluran pengairan buatan guna mendukung keberlangsungan pasokan air di luar musim hujan." }
+            ].map((item, idx) => (
+              <li key={idx} style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: "0.75rem",
+                fontSize: "0.95rem",
+                color: "hsl(var(--text-muted))",
+                lineHeight: "1.6"
+              }}>
+                <span style={{ color: "hsl(var(--secondary))", fontWeight: "bold" }}>•</span>
+                <span>
+                  <strong>{item.label}</strong>: {item.desc}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <p style={{
+            fontSize: "0.95rem",
+            color: "hsl(var(--text-muted))",
+            lineHeight: "1.7",
+            marginBottom: "2rem"
+          }}>
+            Tujuan utama sistem ini adalah membantu pengguna (petani) memvalidasi kondisi lahan mereka sedini mungkin dan mendukung langkah keputusan penanaman jenis komoditas tanaman yang paling tepat guna mengoptimalkan hasil pertanian.
+          </p>
+
+          <div style={{
+            padding: "1.25rem 1.5rem",
+            background: "hsla(45, 100%, 96%, 1)",
+            borderLeft: "4px solid hsl(var(--accent))",
+            borderRadius: "8px",
+            color: "hsl(var(--text-dark))",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.02)"
+          }}>
+            <h4 style={{
+              fontSize: "0.95rem",
+              fontWeight: "800",
+              marginBottom: "0.5rem",
+              color: "hsl(var(--text-dark))"
+            }}>
+              Pemberitahuan Penting
+            </h4>
+            <p style={{
+              fontSize: "0.85rem",
+              lineHeight: "1.6",
+              margin: 0,
+              color: "hsl(var(--text-muted))"
+            }}>
+              Sistem ini berfungsi murni sebagai alat rekomendasi dan penapisan (screening) awal berdasarkan kecocokan data latih (dataset), bukan keputusan mutlak laboratorium pertanian klinis. Hasil prediksi tidak dapat sepenuhnya menggantikan evaluasi langsung dari laboratorium tanah resmi atau saran ahli agronomi profesional lapangan. Gunakan hasil rekomendasi sistem sebagai salah satu panduan awal dalam merencanakan budidaya lahan Anda.
+            </p>
+          </div>
+        </section>
+
         {/* Result Comparison Block */}
         {results && <ResultComparison data={results} />}
 
