@@ -399,36 +399,42 @@ def health():
 def calculate_smoothed_nb_probabilities(nb_model, scaler, features, inputs):
     classes = list(nb_model.classes_)
     
-    log_numerators = []
-    
-    for c_idx, c_name in enumerate(classes):
-        prior = math.exp(nb_model.class_log_prior_[c_idx])
-        log_l = math.log(prior)
+    import pandas as pd
+    csv_path = os.path.join(os.path.dirname(__file__), "crop_data.csv")
+    if os.path.exists(csv_path):
+        df = pd.read_csv(csv_path)
+    else:
+        return classes[0], 1.0, {c: 1.0 / len(classes) for c in classes}
         
-        for f_idx, f_name in enumerate(features):
-            val = int(inputs[f_name])
-            max_val = nb_model.feature_log_prob_[f_idx].shape[1] - 1
-            val_idx = max(0, min(val, max_val))
-            log_l += nb_model.feature_log_prob_[f_idx][c_idx][val_idx]
+    total_count = len(df)
+    
+    # Class counts
+    class_counts = df["label"].value_counts().to_dict()
+    
+    # Priors
+    priors = {c: class_counts.get(c, 0) / total_count for c in classes}
+    
+    posteriors = {}
+    
+    for c in classes:
+        c_df = df[df["label"] == c]
+        c_count = len(c_df)
+        
+        prod = 1.0
+        for f in features:
+            v = int(inputs[f])
+            match_count = len(c_df[c_df[f] == v])
+            k = 2 if f == "irigasi" else 3
+            prob = (match_count + 1) / (c_count + k)
+            prod *= prob
             
-        log_numerators.append(log_l)
+        posteriors[c] = prod * priors[c]
         
-    # Apply dynamic temperature scaling to make probabilities smooth
-    max_log_num = max(log_numerators)
-    diffs = [ln - max_log_num for ln in log_numerators]
-    min_diff = min(diffs)
+    sum_post = sum(posteriors.values())
     
-    # If the range is large, scale it so the minimum class gets ~1-5%
-    T = max(abs(min_diff) / 4.0, 1.0)
-    
-    scaled_diffs = [d / T for d in diffs]
-    exps = [math.exp(sd) for sd in scaled_diffs]
-    sum_exps = sum(exps)
-    probs = [e / sum_exps for e in exps]
-    
-    prob_dict = {classes[i]: float(probs[i]) for i in range(len(classes))}
-    prediction = classes[int(np.argmax(probs))]
-    confidence = float(np.max(probs))
+    prob_dict = {c: float(posteriors[c] / sum_post) if sum_post > 0 else 1.0 / len(classes) for c in classes}
+    prediction = max(prob_dict, key=prob_dict.get)
+    confidence = prob_dict[prediction]
     
     return prediction, confidence, prob_dict
 
@@ -878,9 +884,9 @@ def calculate_nb(
     if model_data is None:
         raise HTTPException(status_code=503, detail="Model machine learning belum siap.")
         
-    import math
+    import pandas as pd
     try:
-        # Get components
+        # Get features and classes
         nb_model = model_data["nb"]
         scaler = model_data["scaler"]
         features = model_data["features"]
@@ -893,12 +899,11 @@ def calculate_nb(
             "rainfall": rainfall, "irigasi": irigasi
         }
         
-        # Scale inputs
+        # Scale inputs (for UI display of scaled details)
         input_list = [inputs[f] for f in features]
         input_df = pd.DataFrame([input_list], columns=features)
         input_scaled = scaler.transform(input_df)[0]
         
-        # Build scaling details list
         scaled_details = []
         for i, f in enumerate(features):
             mean_val = float(scaler.mean_[i])
@@ -911,32 +916,36 @@ def calculate_nb(
                 "std": std_val
             })
             
-        # Prior probabilities
-        class_count = list(nb_model.class_count_)
-        total_count = float(sum(class_count))
+        # Load dataset to calculate exact counts and probabilities
+        csv_path = os.path.join(os.path.dirname(__file__), "crop_data.csv")
+        if not os.path.exists(csv_path):
+            raise HTTPException(status_code=404, detail="Berkas dataset crop_data.csv tidak ditemukan.")
+        df = pd.read_csv(csv_path)
+        total_count = len(df)
+        
+        # Class counts in dataset
+        class_counts = df["label"].value_counts().to_dict()
         
         # Calculate likelihoods and posteriors
         class_results = []
+        posteriors = {}
         
-        for c_idx, c_name in enumerate(classes):
-            prior = math.exp(nb_model.class_log_prior_[c_idx])
-            count = float(class_count[c_idx])
+        for c in classes:
+            c_count = float(class_counts.get(c, 0))
+            prior = c_count / total_count
+            c_df = df[df["label"] == c]
+            
             feature_likelihoods = []
             likelihood_prod = 1.0
             
-            for f_idx, f_name in enumerate(features):
-                val = int(inputs[f_name])
-                max_val = nb_model.feature_log_prob_[f_idx].shape[1] - 1
-                val_idx = max(0, min(val, max_val))
-                
-                pdf_val = math.exp(nb_model.feature_log_prob_[f_idx][c_idx][val_idx])
-                
-                feat_count = float(nb_model.category_count_[f_idx][c_idx][val_idx])
-                k_val = int(nb_model.n_categories_[f_idx])
-                class_cnt = float(nb_model.class_count_[c_idx])
+            for f in features:
+                val = int(inputs[f])
+                feat_count = float(len(c_df[c_df[f] == val]))
+                k_val = 2 if f == "irigasi" else 3
+                pdf_val = (feat_count + 1.0) / (c_count + k_val)
                 
                 feature_likelihoods.append({
-                    "feature": f_name,
+                    "feature": f,
                     "scaled_value": float(val),
                     "mean": 0.0,
                     "variance": 0.0,
@@ -945,41 +954,33 @@ def calculate_nb(
                     "likelihood": pdf_val,
                     "count": feat_count,
                     "k": k_val,
-                    "class_count": class_cnt
+                    "class_count": c_count
                 })
                 likelihood_prod *= pdf_val
                 
             numerator = prior * likelihood_prod
+            posteriors[c] = numerator
             
             class_results.append({
-                "class_name": c_name,
+                "class_name": c,
                 "prior": prior,
-                "count": count,
-                "total_count": total_count,
+                "count": c_count,
+                "total_count": float(total_count),
                 "features": feature_likelihoods,
                 "likelihood_product": likelihood_prod,
                 "numerator": numerator,
                 "posterior": 0.0 # will fill after normalization
             })
             
-        # Normalize to get posteriors using dynamic temperature softmax to prevent overconfidence
-        log_numerators = [math.log(res["numerator"]) for res in class_results]
-        max_log_num = max(log_numerators)
-        diffs = [ln - max_log_num for ln in log_numerators]
-        min_diff = min(diffs)
-        
-        T = max(abs(min_diff) / 4.0, 1.0)
-        scaled_diffs = [d / T for d in diffs]
-        exps = [math.exp(sd) for sd in scaled_diffs]
-        sum_exps = sum(exps)
-        
-        for c_idx in range(len(class_results)):
-            class_results[c_idx]["posterior"] = float(exps[c_idx] / sum_exps)
+        # Normalize to get posteriors without temperature scaling
+        sum_post = sum(posteriors.values())
+        for res in class_results:
+            c = res["class_name"]
+            res["posterior"] = float(posteriors[c] / sum_post) if sum_post > 0 else 1.0 / len(classes)
                 
-        # Find prediction (argmax of posteriors)
-        pred_idx = int(np.argmax([r["posterior"] for r in class_results]))
-        prediction = class_results[pred_idx]["class_name"]
-        confidence = class_results[pred_idx]["posterior"]
+        # Find prediction
+        prediction = max(posteriors, key=posteriors.get)
+        confidence = posteriors[prediction] / sum_post if sum_post > 0 else 1.0 / len(classes)
         
         # Format names nicely for client
         class_mapping = {"Padi": "🌾 Padi (K1)", "Jagung": "🌽 Jagung (K2)", "Kopi": "☕ Kopi (K3)"}

@@ -72,9 +72,9 @@ def load_and_categorize_user_dataset():
             n_cat = 3
             
         # Map P
-        if row['P'] < 35:
+        if row['P'] < 30:
             p_cat = 1
-        elif row['P'] <= 55:
+        elif row['P'] <= 50:
             p_cat = 2
         else:
             p_cat = 3
@@ -82,7 +82,7 @@ def load_and_categorize_user_dataset():
         # Map K
         if row['K'] < 20:
             k_cat = 1
-        elif row['K'] <= 35:
+        elif row['K'] < 35:
             k_cat = 2
         else:
             k_cat = 3
@@ -96,7 +96,7 @@ def load_and_categorize_user_dataset():
             t_cat = 3
             
         # Map humidity
-        if row['humidity'] < 55:
+        if row['humidity'] < 57.8:
             h_cat = 1
         elif row['humidity'] <= 70:
             h_cat = 2
@@ -125,10 +125,8 @@ def load_and_categorize_user_dataset():
         
         if crop == "Padi":
             irigasi = 1
-        elif crop == "Kopi":
+        else:  # Jagung dan Kopi
             irigasi = 0
-        else:  # Jagung
-            irigasi = 1 if (int(row['N']) + int(row['P'])) % 2 == 0 else 0
             
         categorized_rows.append({
             "N": n_cat,
