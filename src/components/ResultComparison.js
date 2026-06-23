@@ -46,7 +46,7 @@ export default function ResultComparison({ data }) {
     return (
       <div className="comparison-card nb" style={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}>
         <span className="algorithm-badge">
-          Klasifikasi Naive Bayes
+          Klasifikasi Tanaman Komoditas Pertanian
         </span>
 
         <h3 className="result-crop">

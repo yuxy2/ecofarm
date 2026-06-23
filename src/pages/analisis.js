@@ -411,7 +411,7 @@ export default function Analisis() {
             margin: 0,
             lineHeight: 1.2
           }}>
-            Rekomendasi Tanaman Presisi
+            Rekomendasi Tanaman Komoditas Pertanian
           </h1>
           <p style={{ fontSize: "0.95rem", color: "hsl(var(--text-muted))", marginTop: "0.5rem" }}>
             Masukkan data unsur hara tanah (NPK), pH, serta iklim mikro lahan pertanian Anda di bawah ini untuk memprediksi kesesuaian tanaman menggunakan Naive Bayes.
